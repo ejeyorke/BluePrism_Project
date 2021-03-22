@@ -1,0 +1,2672 @@
+﻿<process name="Shipping Document Recognition" version="1.0" bpversion="6.10.0.30674" narrative="Recognize shipping documents to prepare excel file to import to custom system for client invoicing." byrefcollection="true" preferredid="898f3fee-1bf1-411b-a3a3-d2586174f70a" published="true">
+  <view>
+    <camerax>48</camerax>
+    <cameray>-22</cameray>
+    <zoom version="2">1.5625</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="cd202f01-9ce2-40bd-bd1d-7dff90ad2cec" type="Normal" published="False">
+    <name>Identify Document</name>
+    <view>
+      <camerax>172</camerax>
+      <cameray>429</cameray>
+      <zoom version="2">1.5625</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="07cb93ea-5cc7-4b25-a1c6-5afb7b535062" type="Normal" published="False">
+    <name>Trim Customer Name</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>105</cameray>
+      <zoom version="2">1.5625</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="5bd13835-1abb-4e34-9a41-497d457ffc2f" type="Normal" published="False">
+    <name>Trim Trip Number</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>42</cameray>
+      <zoom version="2">1.5625</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="2c4f54c9-a4a3-4de7-be69-59ff5c80da8e" type="Normal" published="False">
+    <name>Get Client Requirements</name>
+    <view>
+      <camerax>-290</camerax>
+      <cameray>-36</cameray>
+      <zoom version="2">1.5625</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="dc3634b8-25a2-4691-9a35-b49a3d972845" type="Normal" published="False">
+    <name>Check Client Requirements Met</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>195</cameray>
+      <zoom version="2">1.5625</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb" type="Normal" published="False">
+    <name>Write Results to Excel</name>
+    <view>
+      <camerax>142</camerax>
+      <cameray>222</cameray>
+      <zoom version="2">1.5625</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="039455c9-1c36-45b4-ab2e-fa8e8682432a" type="Normal" published="False">
+    <name>Send Missing Document Email</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>45</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="bcac95f2-f5b7-4e9e-a402-5b122bd44664" type="Normal" published="False">
+    <name>Collect Emails</name>
+    <view>
+      <camerax>44</camerax>
+      <cameray>126</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="d227ad9d-457c-4351-a58f-b9b7491741b1" type="Normal" published="False">
+    <name>Queue Start</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="e1a7afdf-1827-4b83-bdd9-7824a3cd8771" name="Start" type="Start">
+    <display x="0" y="-240" />
+    <inputs>
+      <input type="text" name="PDF Location to the Main Page" narrative="Folder Path (general)" stage="RESULT FOLDER" />
+    </inputs>
+    <onsuccess>1e886389-d1de-4ce1-8b67-88185dabe9b6</onsuccess>
+  </stage>
+  <stage stageid="4946487a-89d3-4d93-b920-8ed58e16323d" name="End" type="End">
+    <display x="0" y="765" />
+  </stage>
+  <stage stageid="3e8ba534-510e-460f-bf72-9074d0031a4e" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="5609b83e-c91f-48e4-8049-429b5d29c3c7" name="Get Client Requirements" type="SubSheetInfo">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <display x="-555" y="-165" w="150" h="90" />
+  </stage>
+  <stage stageid="f9fadc84-8f0b-48f7-81c0-de3b934b0b13" name="Start" type="Start">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <display x="-390" y="-195" />
+    <inputs>
+      <input type="text" name="File Location" narrative="File location from main page" stage="FILE LOCATION" />
+    </inputs>
+    <onsuccess>5a1b289b-f370-4976-9cd2-4bd58dd93bf6</onsuccess>
+  </stage>
+  <stage stageid="171da0db-a061-4f1b-8374-38430fa32b72" name="End" type="End">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <display x="-390" y="255" />
+    <outputs>
+      <output type="collection" name="Client Doc Requirement Collection" narrative="Client document requirements output to main page" stage="CLIENT DOC REQ" />
+    </outputs>
+  </stage>
+  <stage stageid="800acc0f-b4f8-45bf-882a-95322ca48ed5" name="Open Workbook" type="Action">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-390" y="75" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="[FILE LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="" />
+    </outputs>
+    <onsuccess>e97ef3a8-47e2-4269-953f-d3aca0da3f3b</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="e97ef3a8-47e2-4269-953f-d3aca0da3f3b" name="Get Collection" type="Action">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-390" y="135" />
+    <outputs>
+      <output type="collection" name="Data" friendlyname="Data" narrative="The data output" stage="CLIENT DOC REQ" />
+    </outputs>
+    <onsuccess>fcfc7b4e-111e-4d27-a661-5bb4a4ac9145</onsuccess>
+    <resource object="MS Excel VBO" action="Get Worksheet As Collection (Fast)" />
+  </stage>
+  <stage stageid="fcfc7b4e-111e-4d27-a661-5bb4a4ac9145" name="Close" type="Action">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-390" y="195" />
+    <onsuccess>171da0db-a061-4f1b-8374-38430fa32b72</onsuccess>
+    <resource object="MS Excel VBO" action="Close All Instances" />
+  </stage>
+  <stage stageid="0c668d1d-16a1-47b2-8a61-360569752265" name="FILE LOCATION" type="Data">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-525" y="-90" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="7bc6b72a-4872-440d-b9d9-3120822fd4b9" name="COLLECTION ROW COUNT" type="Data">
+    <display x="-225" y="90" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2ece430b-6743-49c0-8214-0a6a96df8044" name="Input Variables" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="-45" w="150" h="90" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="2e94f28e-ec1c-44c0-a908-a403d2eaad58" name="Get Client Requirements" type="SubSheet">
+    <loginhibit onsuccess="true" />
+    <display x="105" y="225" />
+    <font family="Segoe UI" size="10" style="Regular" color="008000" />
+    <inputs>
+      <input type="text" name="File Location" friendlyname="File Location" narrative="File location from main page" expr="[CLIENT REQ LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Client Doc Requirement Collection" friendlyname="Client Doc Requirement Collection" narrative="Client document requirements output to main page" stage="CLIENT DOC REQ" />
+    </outputs>
+    <onsuccess>1676a8ac-7c2f-41ae-b0cb-b89799a8d605</onsuccess>
+    <processid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</processid>
+  </stage>
+  <stage stageid="752d42a4-6998-4e38-bd31-b3d74cb41ade" name="Create Instance" type="Action">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-390" y="15" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="" />
+    </outputs>
+    <onsuccess>800acc0f-b4f8-45bf-882a-95322ca48ed5</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="4e5bdc68-2ea4-410d-8a24-5046562762b2" name="Get Rows in Collection" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="165" />
+    <inputs>
+      <input type="text" name="Collection Name" friendlyname="Collection Name" narrative="The name of the collection to act upon" expr="&quot;CLIENT DOC REQ&quot;" />
+    </inputs>
+    <outputs>
+      <output type="number" name="Count" friendlyname="Count" narrative="The number of rows counted in the collection" stage="COLLECTION ROW COUNT" />
+    </outputs>
+    <onsuccess>4c6f4f98-e7b3-4a5a-8883-0712cca93f3e</onsuccess>
+    <resource object="Blueprism.AutomateProcessCore.clsCollectionActions" action="Count Rows" />
+  </stage>
+  <stage stageid="be5ae656-50d9-468a-beee-e0516aa385a5" name="CLIENT REQ LOCATION" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Users\Elise\Desktop\folder_01\DocReq.xlsx</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="cb33d524-2a57-44b1-a245-80868c5f3899" name="Output - Identify Document" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="270" w="150" h="90" />
+    <font family="Segoe UI" size="10" style="Regular" color="800080" />
+  </stage>
+  <stage stageid="4c6f4f98-e7b3-4a5a-8883-0712cca93f3e" name="Client Doc Req Empty?" type="Decision">
+    <display x="0" y="225" />
+    <decision expression="[COLLECTION ROW COUNT] &lt; 1" />
+    <ontrue>2e94f28e-ec1c-44c0-a908-a403d2eaad58</ontrue>
+    <onfalse>3b56feff-e850-4367-806a-580e846fc7b0</onfalse>
+  </stage>
+  <stage stageid="92e2108e-5134-4e94-b3a0-99507036f9e6" name="Identify Document" type="SubSheetInfo">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="bf11340e-7434-4d39-9115-488890017a30" name="Start" type="Start">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="60" y="-135" />
+    <inputs>
+      <input type="text" name="PDF Location" narrative="Location of pdf" stage="PDF LOCATION" />
+    </inputs>
+    <onsuccess>15d9bee8-239a-44fa-867a-7d3c76ebf158</onsuccess>
+  </stage>
+  <stage stageid="307e7797-fee8-4ea0-bad0-ebc6da47d739" name="End" type="End">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="60" y="555" />
+    <outputs>
+      <output type="flag" name="Bill of Lading" narrative="Bill of lading exists?" stage="LADING" />
+      <output type="flag" name="Manifest" narrative="Manifest exists?" stage="MANIFEST" />
+      <output type="text" name="Customer Name" stage="CUSTOMER_NAME" />
+      <output type="text" name="Trip Type" stage="TRIP" />
+    </outputs>
+  </stage>
+  <stage stageid="6ccf0447-2300-4024-9d76-2ef9e195a02d" name="LADING" type="Data">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <narrative>If document exist = Y, else N</narrative>
+    <display x="-225" y="165" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="849adf32-cd1e-473b-bea4-5c3a423b5d02" name="MANIFEST" type="Data">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <narrative>If document exist = Y, else N</narrative>
+    <display x="-165" y="165" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="edbe26bc-f3c5-42d2-88eb-5183d06bc9f8" name="LADING" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="300" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a95157c7-8410-495a-80fd-0b80fdfd37cd" name="MANIFEST" type="Data">
+    <loginhibit onsuccess="true" />
+    <narrative>If customs declaration ace manifest document found = 1, if not = 0</narrative>
+    <display x="-165" y="300" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ee2ba28a-0cee-4d34-b602-21f06cd676c6" name="Identify Document" type="SubSheet">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="105" />
+    <font family="Segoe UI" size="10" style="Regular" color="800080" />
+    <inputs>
+      <input type="text" name="PDF Location" friendlyname="PDF Location" narrative="Location of pdf" expr="[PDF LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Bill of Lading" friendlyname="Bill of Lading" narrative="Bill of lading exists?" stage="LADING" />
+      <output type="flag" name="Manifest" friendlyname="Manifest" narrative="Manifest exists?" stage="MANIFEST" />
+      <output type="text" name="Customer Name" friendlyname="Customer Name" stage="CUSTOMER_NAME" />
+      <output type="text" name="Trip Type" friendlyname="Trip Type" stage="TRIP" />
+    </outputs>
+    <onsuccess>4e5bdc68-2ea4-410d-8a24-5046562762b2</onsuccess>
+    <processid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</processid>
+  </stage>
+  <stage stageid="c3f2e355-7d9b-4a30-ada8-dd41e2263d03" name="Check Client Requirements Met" type="SubSheetInfo">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="85464bb3-33a2-42ea-9989-60546071e0cc" name="Start" type="Start">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="105" y="-225" />
+    <inputs>
+      <input type="text" name="Customer Name" stage="CUSTOMER_NAME" />
+      <input type="text" name="Trip" stage="TRIP" />
+      <input type="flag" name="LADING" stage="LADING" />
+      <input type="flag" name="MANIFEST" stage="MANIFEST" />
+      <input type="collection" name="Client Doc Requirement" stage="CLIENT DOC REQ" />
+    </inputs>
+    <onsuccess>48a1a33f-59df-4f89-b7c4-33e74399d36e</onsuccess>
+  </stage>
+  <stage stageid="503b0b89-de87-4374-8fe6-f988de47cd0c" name="End" type="End">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="105" y="255" />
+    <outputs>
+      <output type="collection" name="Ready to Invoice" narrative="Collection indicating whether a trip is ready to be invoiced" stage="READY TO INVOICE" />
+      <output type="collection" name="Missing Document" narrative="Collection indicating which documents are missing" stage="MISSING DOC OUTPUT" />
+    </outputs>
+  </stage>
+  <stage stageid="470ea6f6-c214-4431-bed8-37542bbc13fe" name="Check Client Requirements Met" type="SubSheet">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="465" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF6600" />
+    <inputs>
+      <input type="text" name="Customer Name" friendlyname="Customer Name" expr="[CUSTOMER_NAME]" />
+      <input type="text" name="Trip" friendlyname="Trip" expr="[TRIP]" />
+      <input type="flag" name="LADING" friendlyname="LADING" expr="[LADING]" />
+      <input type="flag" name="MANIFEST" friendlyname="MANIFEST" expr="[MANIFEST]" />
+      <input type="collection" name="Client Doc Requirement" friendlyname="Client Doc Requirement" expr="[TARGET CLIENT]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Ready to Invoice" friendlyname="Ready to Invoice" narrative="Collection indicating whether a trip is ready to be invoiced" stage="READY TO INVOICE" />
+      <output type="collection" name="Missing Document" friendlyname="Missing Document" narrative="Collection indicating which documents are missing" stage="MISSING DOC" />
+    </outputs>
+    <onsuccess>cd543196-499a-4a1d-93e8-3ee423354285</onsuccess>
+    <processid>dc3634b8-25a2-4691-9a35-b49a3d972845</processid>
+  </stage>
+  <stage stageid="cac433fa-7181-4d80-9396-e343c5f9211b" name="CUSTOMER_NAME" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="330" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="015386af-a3f9-460d-a625-8403c30be041" name="TRIP" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="330" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b1e5a26a-2ec0-42db-8d1a-77ae37a06bb5" name="Output - Get Client Requirements" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="375" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="008000" />
+  </stage>
+  <stage stageid="7a254a57-3465-4f25-a5cd-6933b8ade7c4" name="Output - Main Page" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="60" w="150" h="120" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="8f5e1783-b648-45f8-be5a-786fb3fc428b" name="CUSTOMER_NAME" type="Data">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="-225" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c15b779c-002c-4f4e-8a5b-d4c87631c3d4" name="TRIP" type="Data">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="-165" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="014c7105-fab9-4d82-b2f0-a34171a509d8" name="LADING" type="Data">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="-225" y="15" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="5461ef16-ea94-4d22-8698-a715dd974980" name="MANIFEST" type="Data">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="-165" y="15" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d1599275-0e39-4152-9246-10263680d98d" name="Input from Main Page" type="Block">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="-45" w="150" h="120" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="b15a3718-a8b2-43dd-96e6-e1f135f4ecda" name="Output" type="Block">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="90" w="150" h="105" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="2575b5af-68bc-496e-9360-065ad91e2d43" name="CLIENT DOC REQ" type="Collection">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <narrative>Client document requirement list</narrative>
+    <display x="-225" y="45" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="Client_Name" type="text" description="Name of client" />
+      <field name="Trip" type="text" description="Type of trip" />
+      <field name="Bill_of_Lading" type="text" description="Bill of lading exists?" />
+      <field name="Customs_Manifest" type="text" description="Manifest exists?" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="3b56feff-e850-4367-806a-580e846fc7b0" name="Filter Client" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="345" />
+    <font family="Segoe UI" size="10" style="Regular" color="0000FF" />
+    <inputs>
+      <input type="collection" name="Collection In" friendlyname="Collection In" narrative="The collection to filter." expr="[CLIENT DOC REQ]" />
+      <input type="text" name="Filter" friendlyname="Filter" narrative="The filter query." expr="&quot;Client_Name = '&quot; &amp; [CUSTOMER_NAME] &amp; &quot;'&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Collection Out" friendlyname="Collection Out" narrative="The filtered collection." stage="TARGET CLIENT" />
+    </outputs>
+    <onsuccess>2c395ffd-9910-4e93-b1ff-8a2718eeb224</onsuccess>
+    <resource object="Utility - Collection Manipulation" action="Filter Collection" />
+  </stage>
+  <stage stageid="88567810-e0f5-450f-aa0d-a473bffa4a74" name="CLIENT DOC REQ" type="Collection">
+    <narrative>Client document requirement list</narrative>
+    <display x="-225" y="405" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="Client_Name" type="text" description="Name of client" />
+      <field name="Bill_of_Lading" type="text" description="Bill of lading exists?" />
+      <field name="Customs_Manifest" type="text" description="Manifest exists?" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="8fe40168-fbee-40e1-bf27-5f1d4f2c1c83" name="TARGET CLIENT" type="Collection">
+    <narrative>Client document requirements of the documents currently working on</narrative>
+    <display x="-165" y="90" />
+    <font family="Segoe UI" size="10" style="Regular" color="0000FF" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="Client_Name" type="text" description="Name of client" />
+      <field name="Bill_of_Lading" type="text" description="Bill of lading exists?" />
+      <field name="Customs_Manifest" type="text" description="Manifest exists?" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="ce16b918-779b-480c-81f0-bd9a6d40eee6" name="READY TO INVOICE" type="Collection">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="-225" y="120" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <singlerow />
+      <field name="Customer_Name" type="text" description="Name of Customer" />
+      <field name="Trip" type="text" description="Trip ID" />
+      <field name="Ready_To_Invoice" type="text" description="Y/N" />
+    </collectioninfo>
+    <initialvalue>
+      <singlerow />
+      <row>
+        <field name="Customer_Name" type="text" value="" />
+        <field name="Trip" type="text" value="" />
+        <field name="Ready_To_Invoice" type="text" value="" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="ee52c5ad-723c-489c-aa1f-1c9053f69159" name="Bill of Lading Required?" type="Decision">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <narrative>Is bill of lading required?</narrative>
+    <display x="105" y="-105" />
+    <decision expression="[CLIENT DOC REQ.Bill_of_Lading] = &quot;Y&quot;" />
+    <ontrue>53919583-0a5c-49d9-b2ae-18d88ec91c87</ontrue>
+    <onfalse>e7c5a76b-7c1e-460a-a21d-98d5d28ad486</onfalse>
+  </stage>
+  <stage stageid="f06f92f3-6c44-42f3-99a5-4a2f30e80379" name="TEMP RESULT" type="Data">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="165" />
+    <datatype>number</datatype>
+    <initialvalue>1</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6ece7a9a-d84d-4502-825c-bf5dcbc5d30a" name="Bill of Lading Satisfied" type="Calculation">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="-60" />
+    <onsuccess>148dba4e-6ccd-443b-9b35-f65a9d5e9284</onsuccess>
+    <calculation expression="[TEMP RESULT] * 1" stage="TEMP RESULT" />
+  </stage>
+  <stage stageid="53919583-0a5c-49d9-b2ae-18d88ec91c87" name="Exists?" type="Decision">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="30" y="-105" />
+    <decision expression="[LADING] = True" />
+    <ontrue>6ece7a9a-d84d-4502-825c-bf5dcbc5d30a</ontrue>
+    <onfalse>c0a788b6-f8e5-43b7-b725-3c1388388f8d</onfalse>
+  </stage>
+  <stage stageid="e7c5a76b-7c1e-460a-a21d-98d5d28ad486" name="Manifest Required?" type="Decision">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="105" y="-15" />
+    <decision expression="[CLIENT DOC REQ.Customs_Manifest] = &quot;Y&quot;" />
+    <ontrue>c96d98a3-0db8-44e6-b8ad-a2775daa56f0</ontrue>
+    <onfalse>4e949ea2-a5eb-4d52-af6b-2a8e8f889740</onfalse>
+  </stage>
+  <stage stageid="148dba4e-6ccd-443b-9b35-f65a9d5e9284" name="Anchor2" type="Anchor">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="-15" w="10" h="10" />
+    <onsuccess>e7c5a76b-7c1e-460a-a21d-98d5d28ad486</onsuccess>
+  </stage>
+  <stage stageid="c96d98a3-0db8-44e6-b8ad-a2775daa56f0" name="Exists?" type="Decision">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="195" y="-15" />
+    <decision expression="[MANIFEST] = True" />
+    <ontrue>d68e9fce-9144-445f-ad8d-d806b15f9954</ontrue>
+    <onfalse>dcd275a8-2e53-4d88-afaf-f8d653322e7f</onfalse>
+  </stage>
+  <stage stageid="4e949ea2-a5eb-4d52-af6b-2a8e8f889740" name="Anchor3" type="Anchor">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="105" y="90" w="10" h="10" />
+    <onsuccess>6837280e-2a5f-4286-8fa7-cd98f8dca9a8</onsuccess>
+  </stage>
+  <stage stageid="d68e9fce-9144-445f-ad8d-d806b15f9954" name="Manifest Satisfied" type="Calculation">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="195" y="45" />
+    <onsuccess>4dfc93ed-732c-403e-b40a-45388733aa64</onsuccess>
+    <calculation expression="[TEMP RESULT] * 1" stage="TEMP RESULT" />
+  </stage>
+  <stage stageid="77241fa7-9193-4ff9-b5fd-712de97d52ad" name="Bill of Lading Not Satisfied" type="MultipleCalculation">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-45" y="-60" />
+    <onsuccess>87bd1201-1c6a-4aba-9122-8bf65cb29fd0</onsuccess>
+    <steps>
+      <calculation expression="[TEMP RESULT] * 0" stage="TEMP RESULT" />
+      <calculation expression="&quot;MISSING&quot;" stage="MISSING DOC OUTPUT.Bill of lading" />
+    </steps>
+  </stage>
+  <stage stageid="c0a788b6-f8e5-43b7-b725-3c1388388f8d" name="Anchor4" type="Anchor">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-45" y="-105" w="10" h="10" />
+    <onsuccess>77241fa7-9193-4ff9-b5fd-712de97d52ad</onsuccess>
+  </stage>
+  <stage stageid="87bd1201-1c6a-4aba-9122-8bf65cb29fd0" name="Anchor5" type="Anchor">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-45" y="-15" w="10" h="10" />
+    <onsuccess>148dba4e-6ccd-443b-9b35-f65a9d5e9284</onsuccess>
+  </stage>
+  <stage stageid="dcd275a8-2e53-4d88-afaf-f8d653322e7f" name="Anchor6" type="Anchor">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="270" y="-15" w="10" h="10" />
+    <onsuccess>0b8f228f-2ae9-43cb-9567-ad53dd1ecb46</onsuccess>
+  </stage>
+  <stage stageid="5b3b95d3-bae3-4436-9af1-1e9dca95eb0a" name="Anchor7" type="Anchor">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="270" y="90" w="10" h="10" />
+    <onsuccess>4dfc93ed-732c-403e-b40a-45388733aa64</onsuccess>
+  </stage>
+  <stage stageid="0b8f228f-2ae9-43cb-9567-ad53dd1ecb46" name="Manifest Not Satisfied" type="MultipleCalculation">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="270" y="45" />
+    <onsuccess>5b3b95d3-bae3-4436-9af1-1e9dca95eb0a</onsuccess>
+    <steps>
+      <calculation expression="[TEMP RESULT] * 0" stage="TEMP RESULT" />
+      <calculation expression="&quot;MISSING&quot;" stage="MISSING DOC OUTPUT.Manifest" />
+    </steps>
+  </stage>
+  <stage stageid="4dfc93ed-732c-403e-b40a-45388733aa64" name="Anchor8" type="Anchor">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="195" y="90" w="10" h="10" />
+    <onsuccess>4e949ea2-a5eb-4d52-af6b-2a8e8f889740</onsuccess>
+  </stage>
+  <stage stageid="6837280e-2a5f-4286-8fa7-cd98f8dca9a8" name="All Doc Satisfied?" type="Decision">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="105" y="135" />
+    <decision expression="[TEMP RESULT] = 1" />
+    <ontrue>0332fc33-ae4c-4c31-8ce9-09f65512e0a7</ontrue>
+    <onfalse>8b6d2ce0-bef2-4612-a87e-e150dfd75b9f</onfalse>
+  </stage>
+  <stage stageid="0332fc33-ae4c-4c31-8ce9-09f65512e0a7" name="Ready to Invoice" type="Calculation">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="135" />
+    <onsuccess>dc1cfdef-7353-4e99-bbde-a9cec0180aca</onsuccess>
+    <calculation expression="&quot;Y&quot;" stage="READY TO INVOICE.Ready_To_Invoice" />
+  </stage>
+  <stage stageid="8b6d2ce0-bef2-4612-a87e-e150dfd75b9f" name="Not Ready to Invoice" type="Calculation">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="180" y="135" />
+    <onsuccess>e72a63b0-c3ea-44d5-ba9c-ed00de06b02f</onsuccess>
+    <calculation expression="&quot;N&quot;" stage="READY TO INVOICE.Ready_To_Invoice" />
+  </stage>
+  <stage stageid="dc1cfdef-7353-4e99-bbde-a9cec0180aca" name="Anchor9" type="Anchor">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="195" w="10" h="10" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+    <onsuccess>ed1afabe-73f4-4412-a75a-f6d005470e06</onsuccess>
+  </stage>
+  <stage stageid="e72a63b0-c3ea-44d5-ba9c-ed00de06b02f" name="Anchor10" type="Anchor">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="180" y="195" w="10" h="10" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+    <onsuccess>ed1afabe-73f4-4412-a75a-f6d005470e06</onsuccess>
+  </stage>
+  <stage stageid="a11d1263-f841-4327-ac34-bddee4bbf0f9" name="MISSING DOC OUTPUT" type="Collection">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <display x="-165" y="120" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <singlerow />
+      <field name="Customer_Name" type="text" description="Name of Customer" />
+      <field name="Trip" type="text" description="Trip ID" />
+      <field name="Bill of lading" type="text" description="If bill of lading is missing" />
+      <field name="Manifest" type="text" description="If customs manifest is missing" />
+    </collectioninfo>
+    <initialvalue>
+      <singlerow />
+      <row>
+        <field name="Customer_Name" type="text" value="" />
+        <field name="Trip" type="text" value="" />
+        <field name="Bill of lading" type="text" value="" />
+        <field name="Manifest" type="text" value="" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="48a1a33f-59df-4f89-b7c4-33e74399d36e" name="Ready Collection Details" type="MultipleCalculation">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="105" y="-165" />
+    <onsuccess>ee52c5ad-723c-489c-aa1f-1c9053f69159</onsuccess>
+    <steps>
+      <calculation expression="[CUSTOMER_NAME]" stage="READY TO INVOICE.Customer_Name" />
+      <calculation expression="[CUSTOMER_NAME]" stage="MISSING DOC OUTPUT.Customer_Name" />
+      <calculation expression="[TRIP]" stage="READY TO INVOICE.Trip" />
+      <calculation expression="[TRIP]" stage="MISSING DOC OUTPUT.Trip" />
+    </steps>
+  </stage>
+  <stage stageid="ed1afabe-73f4-4412-a75a-f6d005470e06" name="Anchor11" type="Anchor">
+    <subsheetid>dc3634b8-25a2-4691-9a35-b49a3d972845</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="105" y="195" w="10" h="10" />
+    <onsuccess>503b0b89-de87-4374-8fe6-f988de47cd0c</onsuccess>
+  </stage>
+  <stage stageid="0e1648f5-5b1d-4332-8730-b1ddd88cea78" name="Output - Check Client Req Met" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="450" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF6600" />
+  </stage>
+  <stage stageid="969451ce-2e91-4ede-8824-8be8ed6539ba" name="READY TO INVOICE" type="Collection">
+    <display x="-225" y="480" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <singlerow />
+      <field name="Customer_Name" type="text" description="Name of Customer" />
+      <field name="Trip" type="text" description="Trip ID" />
+      <field name="Ready_To_Invoice" type="text" description="Y/N" />
+    </collectioninfo>
+    <initialvalue>
+      <singlerow />
+      <row>
+        <field name="Customer_Name" type="text" value="" />
+        <field name="Trip" type="text" value="" />
+        <field name="Ready_To_Invoice" type="text" value="" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="27d2d3c2-6470-437f-aea4-92153080988c" name="MISSING DOC" type="Collection">
+    <display x="-165" y="480" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <singlerow />
+      <field name="Customer_Name" type="text" description="Name of Customer" />
+      <field name="Trip" type="text" description="Trip ID" />
+      <field name="Bill of lading" type="text" description="If bill of lading is missing" />
+      <field name="Manifest" type="text" description="If customs manifest is missing" />
+    </collectioninfo>
+    <initialvalue>
+      <singlerow />
+      <row>
+        <field name="Customer_Name" type="text" value="" />
+        <field name="Trip" type="text" value="" />
+        <field name="Bill of lading" type="text" value="" />
+        <field name="Manifest" type="text" value="" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="8d07cf01-1f5e-4f02-b02b-53b5ed5919f1" name="Write Results to Excel" type="SubSheetInfo">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="7c1b222a-1d3d-4394-b563-d3e44dac4663" name="Start" type="Start">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="165" y="-225" />
+    <inputs>
+      <input type="collection" name="Ready to Invoice" stage="READY TO INVOICE" />
+      <input type="collection" name="Missing Document" stage="MISSING DOC" />
+      <input type="text" name="Excel Locations" stage="RESULT FOLDER" />
+      <input type="text" name="Date Time" stage="DATE TIME" />
+    </inputs>
+    <onsuccess>3d82bb8d-002e-4ed6-a19f-51c2be16cdc6</onsuccess>
+  </stage>
+  <stage stageid="d3b24133-93b8-4a0b-b3e3-75e5419767e8" name="End" type="End">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="165" y="660" />
+  </stage>
+  <stage stageid="cd543196-499a-4a1d-93e8-3ee423354285" name="Write Results to Excel" type="SubSheet">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="525" />
+    <inputs>
+      <input type="collection" name="Ready to Invoice" friendlyname="Ready to Invoice" expr="[READY TO INVOICE]" />
+      <input type="collection" name="Missing Document" friendlyname="Missing Document" expr="[MISSING DOC]" />
+      <input type="text" name="Excel Locations" friendlyname="Excel Locations" expr="[RESULT FOLDER]" />
+      <input type="text" name="Date Time" friendlyname="Date Time" expr="[DATE TIME]" />
+    </inputs>
+    <onsuccess>4946487a-89d3-4d93-b920-8ed58e16323d</onsuccess>
+    <processid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</processid>
+  </stage>
+  <stage stageid="5d646ab7-7e71-436b-9cf4-35be77f0dd38" name="Inputs from Main Page" type="Block">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="-45" w="150" h="90" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="9f63ed30-7a98-4117-af1e-ffa0a0f61d9d" name="RESULT FOLDER" type="Data">
+    <loginhibit onsuccess="true" />
+    <narrative>Folder to write results to excel</narrative>
+    <display x="-165" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Users\Elise\Desktop\folder_01</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="e25c177b-92c7-4268-9b0d-a5236c48ce50" name="READY TO INVOICE" type="Collection">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="-225" y="-15" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <singlerow />
+      <field name="Customer_Name" type="text" description="Name of Customer" />
+      <field name="Trip" type="text" description="Trip ID" />
+      <field name="Ready_To_Invoice" type="text" description="Y/N" />
+    </collectioninfo>
+    <initialvalue>
+      <singlerow />
+      <row>
+        <field name="Customer_Name" type="text" value="" />
+        <field name="Trip" type="text" value="" />
+        <field name="Ready_To_Invoice" type="text" value="" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="a44910c2-0844-4dd8-b7de-ba7a506de68f" name="MISSING DOC" type="Collection">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="-165" y="-15" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <singlerow />
+      <field name="Customer_Name" type="text" description="Name of Customer" />
+      <field name="Trip" type="text" description="Trip ID" />
+      <field name="Bill of lading" type="text" description="If bill of lading is missing" />
+      <field name="Manifest" type="text" description="If customs manifest is missing" />
+    </collectioninfo>
+    <initialvalue>
+      <singlerow />
+      <row>
+        <field name="Customer_Name" type="text" value="" />
+        <field name="Trip" type="text" value="" />
+        <field name="Bill of lading" type="text" value="" />
+        <field name="Manifest" type="text" value="" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="6bc9877f-56e2-4577-a205-3808c21732de" name="RESULT FOLDER" type="Data">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <narrative>Folder to write results to excel</narrative>
+    <display x="-225" y="15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d2c79eb8-c3ee-4960-b029-ea597be081a7" name="DATE TIME" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="0150aae6-f23d-41fc-a4bd-3cfa54970104" name="Get Current Date Time" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="-15" />
+    <onsuccess>46df8f6b-a87e-4e37-9bf6-5210808e4705</onsuccess>
+    <calculation expression="FormatDateTime(Now(), &quot;dd-MM-yy HH&quot;) &amp; &quot;00&quot;" stage="DATE TIME" />
+  </stage>
+  <stage stageid="ab142b7e-6a8b-47f2-a4a9-a5077df81d7d" name="DATE TIME" type="Data">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d386d3aa-138b-4d07-ac0b-73c7b531741f" name="EXCEL LOCATION" type="Data">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="-225" y="90" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="3d82bb8d-002e-4ed6-a19f-51c2be16cdc6" name="Filter Ready to Invoice" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="165" y="-165" />
+    <inputs>
+      <input type="collection" name="Collection In" friendlyname="Collection In" narrative="The collection to filter." expr="[READY TO INVOICE]" />
+      <input type="text" name="Filter" friendlyname="Filter" narrative="The filter query." expr="&quot;Ready_to_Invoice = 'Y'&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Collection Out" friendlyname="Collection Out" narrative="The filtered collection." stage="READY TO INVOICE" />
+    </outputs>
+    <onsuccess>dc12aa64-5811-4aa2-affc-f78aa58ebb8a</onsuccess>
+    <resource object="Utility - Collection Manipulation" action="Filter Collection" />
+  </stage>
+  <stage stageid="2abe1fe8-9b5c-405f-9a3b-5ceb550c6764" name="Ready to Invoice?" type="Decision">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="165" y="45" />
+    <decision expression="[Rows] &gt; 0" />
+    <ontrue>3817b73b-390a-4162-88c1-925da8ac6e18</ontrue>
+    <onfalse>8e07a4a0-42a6-4d7e-b727-dea6acd73483</onfalse>
+  </stage>
+  <stage stageid="0b05cf02-e15f-463c-87da-ba81301edaca" name="Rows" type="Data">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="120" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="dc12aa64-5811-4aa2-affc-f78aa58ebb8a" name="Count Rows in Ready to Invoice" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="165" y="-105" />
+    <inputs>
+      <input type="text" name="Collection Name" friendlyname="Collection Name" narrative="The name of the collection to act upon" expr="&quot;READY TO INVOICE&quot;" />
+    </inputs>
+    <outputs>
+      <output type="number" name="Count" friendlyname="Count" narrative="The number of rows counted in the collection" stage="Rows" />
+    </outputs>
+    <onsuccess>68f882d5-2634-47fb-963f-0381d5242fcf</onsuccess>
+    <resource object="Blueprism.AutomateProcessCore.clsCollectionActions" action="Count Rows" />
+  </stage>
+  <stage stageid="3817b73b-390a-4162-88c1-925da8ac6e18" name="Anchor12" type="Anchor">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="255" y="45" w="10" h="10" />
+    <onsuccess>37d6f22c-7730-4b5c-b806-459059d70946</onsuccess>
+  </stage>
+  <stage stageid="1281571d-9758-4670-9add-43f383bd3467" name="Check if file exists" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="255" y="150" />
+    <inputs>
+      <input type="text" name="File Name" friendlyname="File Name" narrative="The name of the file to check" expr="[EXCEL LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Exists" friendlyname="Exists" narrative="True if the file exists" stage="EXCEL EXISTS" />
+    </outputs>
+    <onsuccess>180bb6e3-e1de-4b46-970b-9e0719783e98</onsuccess>
+    <resource object="Utility - File Management" action="File Exists" />
+  </stage>
+  <stage stageid="95b0f698-0b77-4d94-8b74-5cbca1db21bf" name="EXCEL EXISTS" type="Data">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="-165" y="120" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="180bb6e3-e1de-4b46-970b-9e0719783e98" name="File Exists?" type="Decision">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="255" y="210" />
+    <decision expression="[EXCEL EXISTS] = True" />
+    <ontrue>2c0160d1-a472-40eb-b53c-a55e02fb72a8</ontrue>
+    <onfalse>b4907007-8f33-4293-bf0c-69b675a7f593</onfalse>
+  </stage>
+  <stage stageid="2c0160d1-a472-40eb-b53c-a55e02fb72a8" name="Open Excel File" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="255" y="270" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="[EXCEL LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="" />
+    </outputs>
+    <onsuccess>e091d5ed-a2e5-48be-a213-d44f45c0755b</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="b4907007-8f33-4293-bf0c-69b675a7f593" name="Create Excel File" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="345" y="210" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the workbook should be created. The default of zero indicates the currently active instance." expr="" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook that Excel has created - this can be changed using the &quot;Save Workbook As&quot; action" stage="" />
+    </outputs>
+    <onsuccess>50cef81a-5ca5-449d-8d89-edbdd579f020</onsuccess>
+    <resource object="MS Excel VBO" action="Create Workbook" />
+  </stage>
+  <stage stageid="50cef81a-5ca5-449d-8d89-edbdd579f020" name="Save Current Workbook As" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="345" y="270" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance for which the current workbook which should be saved. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The full path and file name to which the current workbook should be saved." expr="[EXCEL LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="New Workbook Name" friendlyname="New Workbook Name" narrative="The new workbook name which Excel will use to identify the workbook." stage="" />
+    </outputs>
+    <onsuccess>662b9491-d7a8-442b-9501-066d703e3324</onsuccess>
+    <resource object="MS Excel VBO" action="Save Current Workbook As" />
+  </stage>
+  <stage stageid="37d6f22c-7730-4b5c-b806-459059d70946" name="Get excel location and filename" type="MultipleCalculation">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="255" y="90" />
+    <onsuccess>1281571d-9758-4670-9add-43f383bd3467</onsuccess>
+    <steps>
+      <calculation expression="[RESULT FOLDER] &amp; &quot;ready_to_invoice_&quot; &amp; [DATE TIME] &amp; &quot;.xlsx&quot;" stage="EXCEL LOCATION" />
+    </steps>
+  </stage>
+  <stage stageid="665a3b62-8237-4847-add7-8c76b42b2a2a" name="Anchor13" type="Anchor">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="345" y="495" w="10" h="10" />
+    <onsuccess>1e7fb529-326e-4e0f-88df-07e7b0425a43</onsuccess>
+  </stage>
+  <stage stageid="46bd5baa-a113-4f4d-aa7b-a33b99a9e5e3" name="Note4" type="Note">
+    <narrative>Write Results to Excel is incomplete. Require email re: clients with missing documents.</narrative>
+    <display x="165" y="525" w="240" h="30" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+  </stage>
+  <stage stageid="46df8f6b-a87e-4e37-9bf6-5210808e4705" name="Note5" type="Note">
+    <narrative>Step 2 - Outlook retrieve file.</narrative>
+    <display x="0" y="45" w="150" h="30" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+    <onsuccess>ee2ba28a-0cee-4d34-b602-21f06cd676c6</onsuccess>
+  </stage>
+  <stage stageid="8e07a4a0-42a6-4d7e-b727-dea6acd73483" name="Anchor14" type="Anchor">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="45" w="10" h="10" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+    <onsuccess>7abca6c7-1102-4f3f-9da6-4be137980105</onsuccess>
+  </stage>
+  <stage stageid="e091d5ed-a2e5-48be-a213-d44f45c0755b" name="Go To Next Empty Cell Down" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="255" y="330" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required cell should be found. The default of zero indicates the currently active instance." expr="" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Cell Reference" friendlyname="Cell Reference" narrative="The reference of the cell which has been found to be empty - an empty value indicates that no empty cells were found." stage="NEXT EMPTY CELL" />
+    </outputs>
+    <onsuccess>f412bd5b-30fb-488d-8a8d-fbba03dff314</onsuccess>
+    <resource object="MS Excel VBO" action="Go To Next Empty Cell Down" />
+  </stage>
+  <stage stageid="124e777c-b286-4da7-904a-d5834bd10df4" name="NEXT EMPTY CELL" type="Data">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="-165" y="90" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">A1</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f412bd5b-30fb-488d-8a8d-fbba03dff314" name="Write Data (without Header)" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="255" y="390" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the specified collection should be written. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook within which the data should be written. The default empty value indicates the current workbook within the specified instance." expr="" />
+      <input type="collection" name="Collection" friendlyname="Collection" narrative="The collection containing the data which should be written to the worksheet." expr="[READY TO INVOICE]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet on which the given data should be written. The default empty value indicates the current sheet within the specified workbook." expr="" />
+      <input type="text" name="Cell Reference" friendlyname="Cell Reference" narrative="The reference at which the collection should be written." expr="[NEXT EMPTY CELL]" />
+      <input type="flag" name="Include Column Names" friendlyname="Include Column Names" narrative="True to indicate that the column names from the collection should be written out as the first row; False to ignore the column names and just write out the data." expr="False" />
+    </inputs>
+    <onsuccess>1e7fb529-326e-4e0f-88df-07e7b0425a43</onsuccess>
+    <resource object="MS Excel VBO" action="Write Collection" />
+  </stage>
+  <stage stageid="1e7fb529-326e-4e0f-88df-07e7b0425a43" name="Save &amp; Close Excel" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="255" y="495" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the workbook which should be closed resides. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which should be closed." expr="" />
+      <input type="flag" name="Save Data" friendlyname="Save Data" narrative="True to save the data before closing the workbook; The default of False will discard any changes before closing the workbook." expr="True" />
+    </inputs>
+    <onsuccess>0b020bee-0153-473b-838e-425da0592f8b</onsuccess>
+    <resource object="MS Excel VBO" action="Close Workbook" />
+  </stage>
+  <stage stageid="662b9491-d7a8-442b-9501-066d703e3324" name="Write Data (with Header)" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="345" y="390" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the specified collection should be written. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook within which the data should be written. The default empty value indicates the current workbook within the specified instance." expr="" />
+      <input type="collection" name="Collection" friendlyname="Collection" narrative="The collection containing the data which should be written to the worksheet." expr="[READY TO INVOICE]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet on which the given data should be written. The default empty value indicates the current sheet within the specified workbook." expr="" />
+      <input type="text" name="Cell Reference" friendlyname="Cell Reference" narrative="The reference at which the collection should be written." expr="[NEXT EMPTY CELL]" />
+      <input type="flag" name="Include Column Names" friendlyname="Include Column Names" narrative="True to indicate that the column names from the collection should be written out as the first row; False to ignore the column names and just write out the data." expr="True" />
+    </inputs>
+    <onsuccess>665a3b62-8237-4847-add7-8c76b42b2a2a</onsuccess>
+    <resource object="MS Excel VBO" action="Write Collection" />
+  </stage>
+  <stage stageid="a956b324-a3e8-447f-8c04-592b4a82b90a" name="Check if file exists" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="150" />
+    <inputs>
+      <input type="text" name="File Name" friendlyname="File Name" narrative="The name of the file to check" expr="[EXCEL LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Exists" friendlyname="Exists" narrative="True if the file exists" stage="EXCEL EXISTS" />
+    </outputs>
+    <onsuccess>ae62b61a-674e-451e-a429-0cf938d67794</onsuccess>
+    <resource object="Utility - File Management" action="File Exists" />
+  </stage>
+  <stage stageid="ae62b61a-674e-451e-a429-0cf938d67794" name="File Exists?" type="Decision">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="75" y="210" />
+    <decision expression="[EXCEL EXISTS] = True" />
+    <ontrue>19c783c4-edc3-46d9-880d-f28328746236</ontrue>
+    <onfalse>0d20fc61-f292-47b0-ac8c-932be12fcc5a</onfalse>
+  </stage>
+  <stage stageid="19c783c4-edc3-46d9-880d-f28328746236" name="Open Excel File" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="270" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="[EXCEL LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="" />
+    </outputs>
+    <onsuccess>ee04a297-ee8b-412d-a631-df1264a99433</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="0d20fc61-f292-47b0-ac8c-932be12fcc5a" name="Create Excel File" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-15" y="210" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the workbook should be created. The default of zero indicates the currently active instance." expr="" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook that Excel has created - this can be changed using the &quot;Save Workbook As&quot; action" stage="" />
+    </outputs>
+    <onsuccess>dd37815f-75db-4c95-8b90-24f4b0403a28</onsuccess>
+    <resource object="MS Excel VBO" action="Create Workbook" />
+  </stage>
+  <stage stageid="dd37815f-75db-4c95-8b90-24f4b0403a28" name="Save Current Workbook As" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-15" y="270" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance for which the current workbook which should be saved. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The full path and file name to which the current workbook should be saved." expr="[EXCEL LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="New Workbook Name" friendlyname="New Workbook Name" narrative="The new workbook name which Excel will use to identify the workbook." stage="" />
+    </outputs>
+    <onsuccess>04ee943b-699a-4d85-a29a-f73187baa1f9</onsuccess>
+    <resource object="MS Excel VBO" action="Save Current Workbook As" />
+  </stage>
+  <stage stageid="7abca6c7-1102-4f3f-9da6-4be137980105" name="Get excel location and filename" type="MultipleCalculation">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="90" />
+    <onsuccess>a956b324-a3e8-447f-8c04-592b4a82b90a</onsuccess>
+    <steps>
+      <calculation expression="[RESULT FOLDER] &amp; &quot;missing_document_&quot; &amp; [DATE TIME] &amp; &quot;.xlsx&quot;" stage="EXCEL LOCATION" />
+    </steps>
+  </stage>
+  <stage stageid="1dfd22f9-bc77-497b-bb2a-31007c0a8b28" name="Anchor13" type="Anchor">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-15" y="495" w="10" h="10" />
+    <onsuccess>669ba814-d918-4414-9811-beebd6942a4e</onsuccess>
+  </stage>
+  <stage stageid="ee04a297-ee8b-412d-a631-df1264a99433" name="Go To Next Empty Cell Down" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="330" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required cell should be found. The default of zero indicates the currently active instance." expr="" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Cell Reference" friendlyname="Cell Reference" narrative="The reference of the cell which has been found to be empty - an empty value indicates that no empty cells were found." stage="NEXT EMPTY CELL" />
+    </outputs>
+    <onsuccess>e7862009-c869-4dc6-b2af-2ffb7c2207ff</onsuccess>
+    <resource object="MS Excel VBO" action="Go To Next Empty Cell Down" />
+  </stage>
+  <stage stageid="e7862009-c869-4dc6-b2af-2ffb7c2207ff" name="Write Data (without Header)" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="390" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the specified collection should be written. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook within which the data should be written. The default empty value indicates the current workbook within the specified instance." expr="" />
+      <input type="collection" name="Collection" friendlyname="Collection" narrative="The collection containing the data which should be written to the worksheet." expr="[MISSING DOC]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet on which the given data should be written. The default empty value indicates the current sheet within the specified workbook." expr="" />
+      <input type="text" name="Cell Reference" friendlyname="Cell Reference" narrative="The reference at which the collection should be written." expr="[NEXT EMPTY CELL]" />
+      <input type="flag" name="Include Column Names" friendlyname="Include Column Names" narrative="True to indicate that the column names from the collection should be written out as the first row; False to ignore the column names and just write out the data." expr="False" />
+    </inputs>
+    <onsuccess>669ba814-d918-4414-9811-beebd6942a4e</onsuccess>
+    <resource object="MS Excel VBO" action="Write Collection" />
+  </stage>
+  <stage stageid="669ba814-d918-4414-9811-beebd6942a4e" name="Save &amp; Close Excel" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="495" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the workbook which should be closed resides. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which should be closed." expr="" />
+      <input type="flag" name="Save Data" friendlyname="Save Data" narrative="True to save the data before closing the workbook; The default of False will discard any changes before closing the workbook." expr="True" />
+    </inputs>
+    <onsuccess>66461a6c-74af-451b-9941-66defaf08ab0</onsuccess>
+    <resource object="MS Excel VBO" action="Close Workbook" />
+  </stage>
+  <stage stageid="04ee943b-699a-4d85-a29a-f73187baa1f9" name="Write Data (with Header)" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-15" y="390" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the specified collection should be written. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook within which the data should be written. The default empty value indicates the current workbook within the specified instance." expr="" />
+      <input type="collection" name="Collection" friendlyname="Collection" narrative="The collection containing the data which should be written to the worksheet." expr="[MISSING DOC]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet on which the given data should be written. The default empty value indicates the current sheet within the specified workbook." expr="" />
+      <input type="text" name="Cell Reference" friendlyname="Cell Reference" narrative="The reference at which the collection should be written." expr="[NEXT EMPTY CELL]" />
+      <input type="flag" name="Include Column Names" friendlyname="Include Column Names" narrative="True to indicate that the column names from the collection should be written out as the first row; False to ignore the column names and just write out the data." expr="True" />
+    </inputs>
+    <onsuccess>1dfd22f9-bc77-497b-bb2a-31007c0a8b28</onsuccess>
+    <resource object="MS Excel VBO" action="Write Collection" />
+  </stage>
+  <stage stageid="ed356dfe-e755-4a2c-84d0-3ae6a036746c" name="Send Missing Document Email" type="SubSheetInfo">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="66461a6c-74af-451b-9941-66defaf08ab0" name="Send Missing Document Email" type="SubSheet">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="555" />
+    <onsuccess>626d7bac-afe3-4d8c-912b-038911c922af</onsuccess>
+    <processid>039455c9-1c36-45b4-ab2e-fa8e8682432a</processid>
+  </stage>
+  <stage stageid="534d7ec8-a71a-46a9-9f7d-9c87c04aa8f3" name="Note6" type="Note">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <narrative>To do and by Emily.
+May end up being a separate process.</narrative>
+    <display x="-60" y="555" w="180" h="30" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+  </stage>
+  <stage stageid="626d7bac-afe3-4d8c-912b-038911c922af" name="Anchor15" type="Anchor">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="600" w="10" h="10" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+    <onsuccess>1ca278cf-f58a-4065-96f8-49b15d94b384</onsuccess>
+  </stage>
+  <stage stageid="0b020bee-0153-473b-838e-425da0592f8b" name="Anchor16" type="Anchor">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="255" y="600" w="10" h="10" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+    <onsuccess>1ca278cf-f58a-4065-96f8-49b15d94b384</onsuccess>
+  </stage>
+  <stage stageid="1ca278cf-f58a-4065-96f8-49b15d94b384" name="Close Instance" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="165" y="600" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance to be closed. Zero indicates the currently active instance." expr="" />
+      <input type="flag" name="Save Changes" friendlyname="Save Changes" narrative="True to save the changes to the open workbooks on the instance, False to discard any changes. Default is False." expr="" />
+    </inputs>
+    <onsuccess>d3b24133-93b8-4a0b-b3e3-75e5419767e8</onsuccess>
+    <resource object="MS Excel VBO" action="Close Instance" />
+  </stage>
+  <stage stageid="bdc20ac8-f625-480b-a196-b11a20da1e1c" name="Create Excel Instance" type="Action">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="165" y="-15" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="" />
+    </outputs>
+    <onsuccess>2abe1fe8-9b5c-405f-9a3b-5ceb550c6764</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="249a3c26-e75b-4ddd-b7c1-6afda2f9b575" name="PDF LOCATION" type="Data">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Users\Kooritsuki\Desktop\RPA Project\Bill of Lading.pdf</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="da1d847f-b28b-4227-ae7a-51124d88780a" name="Create Instance" type="Action">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="75" />
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" stage="" />
+    </outputs>
+    <onsuccess>d5c26d2c-4fc4-4b1c-8ead-4fd2c5d8d383</onsuccess>
+    <resource object="MS Word VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="d5c26d2c-4fc4-4b1c-8ead-4fd2c5d8d383" name="Open File" type="Action">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="135" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" expr="" />
+      <input type="text" name="File Name" friendlyname="File Name" expr="[PDF LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Document Name" friendlyname="Document Name" stage="" />
+    </outputs>
+    <onsuccess>64de3afa-5dea-4ba3-941c-338cb40bfa7b</onsuccess>
+    <resource object="MS Word VBO" action="Open" />
+  </stage>
+  <stage stageid="96f4a609-9345-42e3-92c7-fac775e730f0" name="Find Text - Bill of Lading" type="Action">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="315" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" expr="" />
+      <input type="text" name="document name" friendlyname="document name" expr="" />
+      <input type="text" name="text" friendlyname="text" expr="&quot;BILL OF LADING&quot;" />
+      <input type="flag" name="match case" friendlyname="match case" expr="False" />
+      <input type="flag" name="match whole word" friendlyname="match whole word" expr="False" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="found" friendlyname="found" stage="LADING" />
+    </outputs>
+    <onsuccess>6dc95724-5754-4850-9afa-51a5fc7e4479</onsuccess>
+    <resource object="MS Word VBO" action="Find Text" />
+  </stage>
+  <stage stageid="6dc95724-5754-4850-9afa-51a5fc7e4479" name="Find Text - Manifest" type="Action">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="375" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" expr="" />
+      <input type="text" name="document name" friendlyname="document name" expr="" />
+      <input type="text" name="text" friendlyname="text" expr="&quot;MANIFEST OF GOODS&quot;" />
+      <input type="flag" name="match case" friendlyname="match case" expr="" />
+      <input type="flag" name="match whole word" friendlyname="match whole word" expr="" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="found" friendlyname="found" stage="MANIFEST" />
+    </outputs>
+    <onsuccess>db4a71a9-fc20-493d-9742-fb0a595c6de7</onsuccess>
+    <resource object="MS Word VBO" action="Find Text" />
+  </stage>
+  <stage stageid="64de3afa-5dea-4ba3-941c-338cb40bfa7b" name="Get Customer Name Cell" type="Action">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="195" />
+    <inputs>
+      <input type="text" name="documentname" friendlyname="documentname" expr="" />
+      <input type="number" name="handle" friendlyname="handle" expr="" />
+      <input type="number" name="Table Number" friendlyname="Table Number" narrative="The number of the table within the document" expr="1" />
+      <input type="number" name="Cell x Number" friendlyname="Cell x Number" narrative="The x location number of the cell within the table (starts at 1)" expr="1" />
+      <input type="number" name="Cell y Number" friendlyname="Cell y Number" narrative="The y location number of the cell within the table (starts at 1)" expr="7" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Result" friendlyname="Result" narrative="the cell contents" stage="CUSTOMER_NAME" />
+    </outputs>
+    <onsuccess>9bbb00b2-6e4b-47cf-a9f5-76fdeb825cb4</onsuccess>
+    <resource object="MS Word VBO" action="Get Table Cell Value" />
+  </stage>
+  <stage stageid="21554189-0ead-4708-a799-a9e649b5bf52" name="CUSTOMER_NAME" type="Data">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="-225" y="195" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2c14d5b0-0b95-4e13-82ae-3172a639443a" name="Get Trip Number Cell" type="Action">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="255" />
+    <inputs>
+      <input type="text" name="documentname" friendlyname="documentname" expr="" />
+      <input type="number" name="handle" friendlyname="handle" expr="" />
+      <input type="number" name="Table Number" friendlyname="Table Number" narrative="The number of the table within the document" expr="1" />
+      <input type="number" name="Cell x Number" friendlyname="Cell x Number" narrative="The x location number of the cell within the table (starts at 1)" expr="2" />
+      <input type="number" name="Cell y Number" friendlyname="Cell y Number" narrative="The y location number of the cell within the table (starts at 1)" expr="2" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Result" friendlyname="Result" narrative="the cell contents" stage="TRIP" />
+    </outputs>
+    <onsuccess>a47178ef-b598-4884-a8f4-f8e92f8efa19</onsuccess>
+    <resource object="MS Word VBO" action="Get Table Cell Value" />
+  </stage>
+  <stage stageid="a212b29c-d51c-4ec1-b91d-0de42510139f" name="TRIP" type="Data">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="-165" y="195" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="5ed67318-05d9-4761-8a49-a0ca3828f032" name="Anchor18" type="Anchor">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="165" y="255" w="10" h="10" />
+    <onsuccess>2c14d5b0-0b95-4e13-82ae-3172a639443a</onsuccess>
+  </stage>
+  <stage stageid="ebdd2ba5-7f89-41f3-a290-b86636ae71a7" name="Trim Customer Name" type="SubSheetInfo">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="780a08f5-4050-46eb-b15f-4b7dd690c00a" name="Start" type="Start">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <display x="-60" y="-135" />
+    <inputs>
+      <input type="text" name="Payment Cell Text" narrative="Text in payment cell" stage="CUSTOMER_NAME" />
+    </inputs>
+    <onsuccess>8706eb16-1508-4c12-86fd-fae2e7c01232</onsuccess>
+  </stage>
+  <stage stageid="a8b9639a-a3ab-4f5d-b8dc-0cb417699109" name="End" type="End">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <display x="-60" y="285" />
+    <outputs>
+      <output type="text" name="Customer Name" narrative="Trimmed Version of Customer's Name" stage="CUSTOMER_NAME" />
+    </outputs>
+  </stage>
+  <stage stageid="9bbb00b2-6e4b-47cf-a9f5-76fdeb825cb4" name="Trim Customer Name" type="SubSheet">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="165" y="195" />
+    <inputs>
+      <input type="text" name="Payment Cell Text" friendlyname="Payment Cell Text" narrative="Text in payment cell" expr="[CUSTOMER_NAME]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Customer Name" friendlyname="Customer Name" narrative="Trimmed Version of Customer's Name" stage="CUSTOMER_NAME" />
+    </outputs>
+    <onsuccess>5ed67318-05d9-4761-8a49-a0ca3828f032</onsuccess>
+    <processid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</processid>
+  </stage>
+  <stage stageid="068e2b25-95cf-46b1-b08a-fcf9c7770ff5" name="CUSTOMER_NAME" type="Data">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <display x="-225" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="8706eb16-1508-4c12-86fd-fae2e7c01232" name="Get &quot;Name&quot; Location" type="Calculation">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-60" y="-75" />
+    <onsuccess>0fb5bfbb-1c90-4d76-8dac-b14561e9ab40</onsuccess>
+    <calculation expression="InStr([CUSTOMER_NAME], &quot;Name&quot;)" stage="NAME POSITION" />
+  </stage>
+  <stage stageid="59f19834-25fe-450f-8443-76f1ee8f8af3" name="NAME POSITION" type="Data">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <display x="-225" y="60" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="0fb5bfbb-1c90-4d76-8dac-b14561e9ab40" name="Get Length of Name Section" type="Calculation">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-60" y="-15" />
+    <onsuccess>a38ae44a-642c-4b2a-96f9-c30e8e33d925</onsuccess>
+    <calculation expression="InStr([CUSTOMER_NAME], &quot;Address&quot;) - [NAME POSITION]" stage="LENGTH OF NAME" />
+  </stage>
+  <stage stageid="4148685c-99b2-4294-beb5-ea1bb5015ef1" name="LENGTH OF NAME" type="Data">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <display x="-165" y="60" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a38ae44a-642c-4b2a-96f9-c30e8e33d925" name="Trim Text" type="Calculation">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-60" y="45" />
+    <onsuccess>2f978427-2e45-47c1-ba57-56b56ce031c1</onsuccess>
+    <calculation expression="Mid([CUSTOMER_NAME], [NAME POSITION], [LENGTH OF NAME])" stage="CUSTOMER_NAME" />
+  </stage>
+  <stage stageid="2f978427-2e45-47c1-ba57-56b56ce031c1" name="Delete &quot;Name&quot;" type="Calculation">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-60" y="105" />
+    <onsuccess>6ce66d37-2c06-4f9a-b8a7-7c0f92c7b31f</onsuccess>
+    <calculation expression="Replace([CUSTOMER_NAME], &quot;Name&quot;, &quot;&quot;)" stage="CUSTOMER_NAME" />
+  </stage>
+  <stage stageid="6ce66d37-2c06-4f9a-b8a7-7c0f92c7b31f" name="Trim Start and End Spaces" type="Calculation">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-60" y="165" />
+    <onsuccess>7c293977-9f3d-4edd-9302-a3c5287398c0</onsuccess>
+    <calculation expression="Trim([CUSTOMER_NAME])" stage="CUSTOMER_NAME" />
+  </stage>
+  <stage stageid="d629a6a8-1551-4ce4-bf69-31036041757c" name="Input from Identify Document" type="Block">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="-45" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="b33febf2-a4e3-4ce9-8ee6-a28c3479dd8a" name="Output" type="Block">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="30" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="ec2009d6-d462-4ce1-ad7b-f859ff2857fc" name="Trim Trip Number" type="SubSheetInfo">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="a47178ef-b598-4884-a8f4-f8e92f8efa19" name="Trim Trip Number" type="SubSheet">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-45" y="255" />
+    <inputs>
+      <input type="text" name="Trip Cell Text" friendlyname="Trip Cell Text" narrative="Text in trip cell" expr="[TRIP]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Trip Number" friendlyname="Trip Number" stage="TRIP" />
+    </outputs>
+    <onsuccess>f5337b3e-da62-4258-874d-491751141d24</onsuccess>
+    <processid>5bd13835-1abb-4e34-9a41-497d457ffc2f</processid>
+  </stage>
+  <stage stageid="f5337b3e-da62-4258-874d-491751141d24" name="Anchor17" type="Anchor">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-45" y="315" w="10" h="10" />
+    <onsuccess>96f4a609-9345-42e3-92c7-fac775e730f0</onsuccess>
+  </stage>
+  <stage stageid="75b2602a-7a88-48f3-a67b-6aa7d0bbe015" name="TRIP" type="Data">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="fe419dfd-0e54-4857-8d65-a398fae57711" name="Start" type="Start">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <display x="-30" y="-135" />
+    <inputs>
+      <input type="text" name="Trip Cell Text" narrative="Text in trip cell" stage="TRIP" />
+    </inputs>
+    <onsuccess>520d0ef5-0fce-4044-9eec-9b70847229f9</onsuccess>
+  </stage>
+  <stage stageid="6daca1d2-e2d7-4e8c-bf57-33015a36228c" name="End" type="End">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <display x="-30" y="225" />
+    <outputs>
+      <output type="text" name="Trip Number" stage="TRIP" />
+    </outputs>
+  </stage>
+  <stage stageid="520d0ef5-0fce-4044-9eec-9b70847229f9" name="Get Start Location" type="Calculation">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-30" y="-75" />
+    <onsuccess>d17f529b-bbb3-4845-ad35-706bf1ad2d00</onsuccess>
+    <calculation expression="InStr([TRIP], &quot;NO.&quot;)" stage="START POSITION" />
+  </stage>
+  <stage stageid="cbf02121-5883-4411-bfe1-b177092912b0" name="Trim Text" type="Calculation">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-30" y="45" />
+    <onsuccess>fb8dda8e-bca3-46ce-bea1-d35652de5db9</onsuccess>
+    <calculation expression="Mid([TRIP], [START POSITION], [LENGTH OF STRING])" stage="TRIP" />
+  </stage>
+  <stage stageid="fb8dda8e-bca3-46ce-bea1-d35652de5db9" name="Delete &quot;NO.&quot;" type="Calculation">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-30" y="105" />
+    <onsuccess>2b97fe79-3245-43f3-8b22-a233cc680bd9</onsuccess>
+    <calculation expression="Replace([TRIP], &quot;NO.&quot;, &quot;&quot;)" stage="TRIP" />
+  </stage>
+  <stage stageid="2b97fe79-3245-43f3-8b22-a233cc680bd9" name="Trim Start and End Spaces" type="Calculation">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-30" y="165" />
+    <onsuccess>6daca1d2-e2d7-4e8c-bf57-33015a36228c</onsuccess>
+    <calculation expression="Trim([TRIP])" stage="TRIP" />
+  </stage>
+  <stage stageid="dbfcc1c0-3485-47a5-99ee-66fc3e461979" name="START POSITION" type="Data">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <display x="-225" y="60" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="9600c1c8-4187-4a55-a865-c8ad98ea1415" name="Input from Identify Document" type="Block">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="-45" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="a6b93fd1-83c3-4068-84e1-a485e04a8e0e" name="LENGTH OF STRING" type="Data">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <display x="-165" y="60" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d17f529b-bbb3-4845-ad35-706bf1ad2d00" name="Get Length of String" type="Calculation">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-30" y="-15" />
+    <onsuccess>cbf02121-5883-4411-bfe1-b177092912b0</onsuccess>
+    <calculation expression="Len([TRIP])" stage="LENGTH OF STRING" />
+  </stage>
+  <stage stageid="391367b2-4488-4a18-9076-80c67a4c19e0" name="Output" type="Block">
+    <subsheetid>5bd13835-1abb-4e34-9a41-497d457ffc2f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="30" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="9727355e-0e13-4852-a59a-99a317ec2e76" name="Output - Get File From Outlook" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="195" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+  </stage>
+  <stage stageid="0df98f0a-e597-40fb-bebf-bda0a6cb5db9" name="PDF LOCATION" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="225" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Users\Elise\Desktop\folder_01\Bill of Lading.pdf</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c11d221e-657a-4fe4-820e-60daca408e67" name="Note7" type="Note">
+    <narrative>Need to get as output from Step 2</narrative>
+    <display x="-345" y="225" w="120" h="30" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+  </stage>
+  <stage stageid="db4a71a9-fc20-493d-9742-fb0a595c6de7" name="Close" type="Action">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="435" />
+    <inputs>
+      <input type="text" name="documentname" friendlyname="documentname" expr="" />
+      <input type="number" name="handle" friendlyname="handle" expr="" />
+    </inputs>
+    <onsuccess>d3555d87-1e92-4bd3-ab66-07314469990b</onsuccess>
+    <resource object="MS Word VBO" action="Close" />
+  </stage>
+  <stage stageid="d3555d87-1e92-4bd3-ab66-07314469990b" name="Exit Word" type="Action">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="495" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" expr="" />
+    </inputs>
+    <onsuccess>307e7797-fee8-4ea0-bad0-ebc6da47d739</onsuccess>
+    <resource object="MS Word VBO" action="Exit" />
+  </stage>
+  <stage stageid="427867a1-7e42-4c61-8bba-245f09d26da8" name="File Exists?" type="Decision">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <display x="-390" y="-75" />
+    <decision expression="[EXISTENCE] = True" />
+    <ontrue>2b8747c3-b711-4090-bb61-f8e71abb29f7</ontrue>
+    <onfalse>113ba2f2-0ad1-41f5-a2d6-c51338fe5357</onfalse>
+  </stage>
+  <stage stageid="5a1b289b-f370-4976-9cd2-4bd58dd93bf6" name="Check File Exist" type="Action">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-390" y="-135" />
+    <inputs>
+      <input type="text" name="File Name" friendlyname="File Name" narrative="The name of the file to check" expr="[FILE LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Exists" friendlyname="Exists" narrative="True if the file exists" stage="EXISTENCE" />
+    </outputs>
+    <onsuccess>427867a1-7e42-4c61-8bba-245f09d26da8</onsuccess>
+    <resource object="Utility - File Management" action="File Exists" />
+  </stage>
+  <stage stageid="9a0e3232-290c-40ee-aea9-1eec2d380134" name="EXISTENCE" type="Data">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <display x="-585" y="-45" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="113ba2f2-0ad1-41f5-a2d6-c51338fe5357" name="Client Requirement Doc 404" type="Exception">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <display x="-285" y="-75" />
+    <exception localized="yes" type="File Not Found" detail="&quot;Client Document Requirement excel file not found.&quot;" />
+  </stage>
+  <stage stageid="3318891d-0b21-4b60-92d7-9919f871c895" name="File Exists?" type="Decision">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="60" y="-15" />
+    <decision expression="[EXISTENCE] = True" />
+    <ontrue>c15489e4-132e-4af1-9a1f-8b5d3cf1fecc</ontrue>
+    <onfalse>c7664c4a-c377-431a-86f8-3bcf0c735627</onfalse>
+  </stage>
+  <stage stageid="15d9bee8-239a-44fa-867a-7d3c76ebf158" name="Check File Exist" type="Action">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="-75" />
+    <inputs>
+      <input type="text" name="File Name" friendlyname="File Name" narrative="The name of the file to check" expr="[PDF LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Exists" friendlyname="Exists" narrative="True if the file exists" stage="EXISTENCE" />
+    </outputs>
+    <onsuccess>3318891d-0b21-4b60-92d7-9919f871c895</onsuccess>
+    <resource object="Utility - File Management" action="File Exists" />
+  </stage>
+  <stage stageid="154ee07a-d468-4408-8574-b796288d2331" name="EXISTENCE" type="Data">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="-225" y="60" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="dab74236-bcbf-4e54-9f6c-38a99681a34a" name="Input from Main Page" type="Block">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="-45" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="66091506-32d2-4ddd-af4f-98c9ef2af049" name="Output" type="Block">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="30" w="150" h="90" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="45ddc2ea-e4ed-45cf-8aa1-ce2a0ee171b8" name="Output to Main Page" type="Block">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="135" w="150" h="90" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="2c395ffd-9910-4e93-b1ff-8a2718eeb224" name="Client Doc Req Empty?" type="Decision">
+    <display x="0" y="405" />
+    <decision expression="[COLLECTION ROW COUNT] &lt; 1" />
+    <ontrue>79579fe7-039e-45d1-8de9-2d241160ed95</ontrue>
+    <onfalse>470ea6f6-c214-4431-bed8-37542bbc13fe</onfalse>
+  </stage>
+  <stage stageid="79579fe7-039e-45d1-8de9-2d241160ed95" name="Client not found" type="Exception">
+    <display x="105" y="405" />
+    <exception localized="yes" type="Business Exception" detail="&quot;The client&quot; &amp; [CUSTOMER_NAME] &amp; &quot;is not found in the Client Document Requirement excel. Will assume all types of documents are required.&quot;" />
+  </stage>
+  <stage stageid="1e886389-d1de-4ce1-8b67-88185dabe9b6" name="Directory Exists" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="0" y="-135" />
+    <inputs>
+      <input type="text" name="Directory Name" friendlyname="Directory Name" narrative="The directory to check exists" expr="[CLIENT REQ LOCATION]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Exists" friendlyname="Exists" narrative="True if the directory exists" stage="EXISTENCE" />
+    </outputs>
+    <onsuccess>e29b9476-c3df-404a-94ce-eabecd70f872</onsuccess>
+    <resource object="Utility - File Management" action="Directory Exists" />
+  </stage>
+  <stage stageid="98b49f3c-11d3-43b3-b397-22e9004243f6" name="EXISTENCE" type="Data">
+    <display x="-225" y="120" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="e29b9476-c3df-404a-94ce-eabecd70f872" name="Result Directory Exists?" type="Decision">
+    <display x="0" y="-75" />
+    <decision expression="[EXISTENCE] = True" />
+    <ontrue>0150aae6-f23d-41fc-a4bd-3cfa54970104</ontrue>
+    <onfalse>d0ba8a30-37d2-4c3d-bf70-b1c594ef6679</onfalse>
+  </stage>
+  <stage stageid="d8334d53-6f86-4eb6-b7a9-42a09e716f70" name="EXCEPTION" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="120" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="284ea29e-0c33-4cbf-ad19-1daa70daf292" name="EXCEPTTION EMAIL MSG" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="150" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="212547c6-be0e-487e-b2a9-b4ac8c99ac64" name="Create Directory" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="495" y="435" />
+    <inputs>
+      <input type="text" name="Directory Path" friendlyname="Directory Path" narrative="The path in which to create the directory" expr="[RESULT FOLDER]" />
+      <input type="flag" name="Error If Already Exists" friendlyname="Error If Already Exists" narrative="True to generate an error if the directory already exists" expr="" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="True if successful" stage="" />
+      <output type="text" name="Message" friendlyname="Message" narrative="An error message if unsuccessful" stage="" />
+    </outputs>
+    <onsuccess>ecbfaddf-abd4-4647-bd3c-aeda1ec8c823</onsuccess>
+    <resource object="Utility - File Management" action="Create Directory" />
+  </stage>
+  <stage stageid="ce96fc75-425e-49e7-8eeb-09a27d66a761" name="Exception Msg" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="405" y="270" />
+    <onsuccess>e385bec0-799e-472a-8914-2b77e5372dbc</onsuccess>
+    <calculation expression="ExceptionDetail()" stage="EXCEPTION" />
+  </stage>
+  <stage stageid="fbc06aa1-4b3b-48ff-a09c-d948322c451a" name="Fill Client Profile with All Doc Required" type="MultipleCalculation">
+    <loginhibit onsuccess="true" />
+    <display x="315" y="465" />
+    <onsuccess>470ea6f6-c214-4431-bed8-37542bbc13fe</onsuccess>
+    <steps>
+      <calculation expression="[CUSTOMER_NAME]" stage="TARGET CLIENT.Client_Name" />
+      <calculation expression="&quot;Y&quot;" stage="TARGET CLIENT.Bill_of_Lading" />
+      <calculation expression="&quot;Y&quot;" stage="TARGET CLIENT.Customs_Manifest" />
+      <calculation expression="[EXCEPTTION EMAIL MSG] &amp; [CUSTOMER_NAME] &amp; [TRIP] &amp; &quot;not found in client requirement document. Sent to missing document file. Please manually handle this file.&quot;" stage="EXCEPTTION EMAIL MSG" />
+    </steps>
+  </stage>
+  <stage stageid="8529380c-67ee-4667-bd6e-ea6986f300ad" name="Client Doc Req Empty?" type="Decision">
+    <display x="105" y="345" />
+    <decision expression="[COLLECTION ROW COUNT] &lt; 1" />
+    <ontrue>6206a5d3-ef7f-4f44-bd2d-13452d495da4</ontrue>
+    <onfalse>3b56feff-e850-4367-806a-580e846fc7b0</onfalse>
+  </stage>
+  <stage stageid="6206a5d3-ef7f-4f44-bd2d-13452d495da4" name="Client Req Doc Empty" type="Exception">
+    <display x="195" y="345" />
+    <exception localized="yes" type="Business Exception" detail="&quot;Client Requirement Document is empty. Please fix the file before resuming this process.&quot;" />
+  </stage>
+  <stage stageid="03d44f5b-f7a2-4bdb-8bc6-848f4258255d" name="Output" type="Block">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="60" w="150" h="120" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="1fd884c0-707e-4aec-81d9-62112d79b8ea" name="Exception Handling" type="ChoiceStart">
+    <display x="405" y="390" />
+    <groupid>03fd226c-2458-4569-9b6d-7666f6918df5</groupid>
+    <choices>
+      <choice expression="InStr([EXCEPTION], &quot;result folder was not found&quot;) &gt; 0">
+        <name>Result Folder Not Found</name>
+        <distance>45</distance>
+        <ontrue>212547c6-be0e-487e-b2a9-b4ac8c99ac64</ontrue>
+      </choice>
+      <choice expression="InStr([EXCEPTION], &quot;is not found in the Client&quot;) &gt; 0">
+        <name>Client Not Found</name>
+        <distance>75</distance>
+        <ontrue>fbc06aa1-4b3b-48ff-a09c-d948322c451a</ontrue>
+      </choice>
+    </choices>
+  </stage>
+  <stage stageid="ea0775d4-6504-4d01-a606-9ac5e8a022eb" name="Otherwise1" type="ChoiceEnd">
+    <display x="405" y="510" />
+    <onsuccess>109e8546-80b6-4780-a62b-b6fa935db239</onsuccess>
+    <groupid>03fd226c-2458-4569-9b6d-7666f6918df5</groupid>
+  </stage>
+  <stage stageid="d0ba8a30-37d2-4c3d-bf70-b1c594ef6679" name="Result Folder Not Found" type="Exception">
+    <display x="105" y="-75" />
+    <exception localized="yes" type="Business Exception" detail="&quot;The result folder was not found at&quot; &amp; [CLIENT REQ LOCATION] &amp; &quot;. Exception raised. New folder will now be created.&quot;" />
+  </stage>
+  <stage stageid="50a66d86-7728-41b6-abe7-d6b466d6cdad" name="CLIENT DOC REQ" type="Collection">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <narrative>Client document requirement list</narrative>
+    <display x="-585" y="-90" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="Client_Name" type="text" description="Name of client" />
+      <field name="Bill_of_Lading" type="text" description="Bill of lading exists?" />
+      <field name="Customs_Manifest" type="text" description="Manifest exists?" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="5f23b7c9-4f1c-4b0d-8283-27efbea552e2" name="CORRECT" type="Data">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <display x="-525" y="-45" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="0e573b6c-e451-4faf-a4ba-6a061aaafcba" name="EXCEPTION" type="Data">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="-165" y="60" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c7664c4a-c377-431a-86f8-3bcf0c735627" name="PDF Not Found" type="Exception">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="165" y="-15" />
+    <exception localized="yes" type="Business Exception" detail="&quot;The PDF document is not found.&quot;" />
+  </stage>
+  <stage stageid="ecbfaddf-abd4-4647-bd3c-aeda1ec8c823" name="Anchor1" type="Anchor">
+    <loginhibit onsuccess="true" />
+    <display x="495" y="-15" w="10" h="10" />
+    <onsuccess>0150aae6-f23d-41fc-a4bd-3cfa54970104</onsuccess>
+  </stage>
+  <stage stageid="10587296-c16a-4de8-beb9-8b64d25ab044" name="Recover" type="Recover">
+    <loginhibit />
+    <display x="405" y="210" />
+    <onsuccess>ce96fc75-425e-49e7-8eeb-09a27d66a761</onsuccess>
+  </stage>
+  <stage stageid="e385bec0-799e-472a-8914-2b77e5372dbc" name="Resume" type="Resume">
+    <loginhibit />
+    <display x="405" y="330" />
+    <onsuccess>1fd884c0-707e-4aec-81d9-62112d79b8ea</onsuccess>
+  </stage>
+  <stage stageid="109e8546-80b6-4780-a62b-b6fa935db239" name="Use Exception" type="Exception">
+    <display x="495" y="510" />
+    <exception localized="yes" type="Business Exception" detail="[EXCEPTION]" />
+  </stage>
+  <stage stageid="33dae222-9745-461d-8a20-42457f8ecd69" name="Recover2" type="Recover">
+    <loginhibit />
+    <display x="600" y="510" />
+    <onsuccess>1660639a-ab10-4f0f-a3f6-6db79839f7a3</onsuccess>
+  </stage>
+  <stage stageid="1660639a-ab10-4f0f-a3f6-6db79839f7a3" name="Throw Exception" type="Exception">
+    <display x="600" y="570" />
+    <exception localized="yes" type="" detail="" usecurrent="yes" />
+  </stage>
+  <stage stageid="83ea1147-edeb-4ec7-a75d-14d5ceb5813e" name="Throw Exception" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="450" y="480" w="195" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="f53efae9-d4dc-4e24-82d9-27f324b24b17" name="Create Instance Error" type="Exception">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <display x="-105" y="135" />
+    <exception localized="yes" type="Business Exception" detail="&quot;Could not start excel instance.&quot;" />
+  </stage>
+  <stage stageid="a046fde2-c79d-4596-b5a4-763a64b389b4" name="Recover" type="Recover">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit />
+    <display x="-285" y="15" />
+    <onsuccess>1d9a6181-de9f-48dc-b64e-584315e7ce06</onsuccess>
+  </stage>
+  <stage stageid="ce93a948-1a76-44e3-92a1-95cf32285a3c" name="MAX TRIES" type="Data">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-585" y="0" />
+    <datatype>number</datatype>
+    <initialvalue>5</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="73d4a947-0bb7-409d-abe4-15f6dfc043f1" name="Exception Instance" type="Block">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-435" y="-15" w="195" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="2b8747c3-b711-4090-bb61-f8e71abb29f7" name="Anchor19" type="Anchor">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-390" y="-30" w="10" h="10" />
+    <onsuccess>752d42a4-6998-4e38-bd31-b3d74cb41ade</onsuccess>
+  </stage>
+  <stage stageid="ab93b829-291e-4f1a-bfc1-ba57762ce2d5" name="COUNT" type="Data">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-525" y="0" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="1d9a6181-de9f-48dc-b64e-584315e7ce06" name="Resume" type="Resume">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit />
+    <display x="-285" y="75" />
+    <onsuccess>ec6fb378-f136-4389-b9a6-a190e34053bd</onsuccess>
+  </stage>
+  <stage stageid="ec6fb378-f136-4389-b9a6-a190e34053bd" name="Count Tries" type="Calculation">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-195" y="75" />
+    <onsuccess>b90abf78-0e9c-4ac2-be9a-9ee602d638b4</onsuccess>
+    <calculation expression="[COUNT] + 1" stage="COUNT" />
+  </stage>
+  <stage stageid="b90abf78-0e9c-4ac2-be9a-9ee602d638b4" name="Is count &gt; max tries?" type="Decision">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <display x="-105" y="75" />
+    <decision expression="[COUNT] &gt; [MAX TRIES]" />
+    <ontrue>f53efae9-d4dc-4e24-82d9-27f324b24b17</ontrue>
+    <onfalse>74e6247e-617a-4047-a03c-0b05076b312f</onfalse>
+  </stage>
+  <stage stageid="74e6247e-617a-4047-a03c-0b05076b312f" name="Anchor20" type="Anchor">
+    <subsheetid>2c4f54c9-a4a3-4de7-be69-59ff5c80da8e</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-105" y="-30" w="10" h="10" />
+    <onsuccess>2b8747c3-b711-4090-bb61-f8e71abb29f7</onsuccess>
+  </stage>
+  <stage stageid="a2d478e9-aebc-4162-b57f-e8824d2733b1" name="Create Instance Error" type="Exception">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="345" y="195" />
+    <exception localized="yes" type="Business Exception" detail="&quot;Could not start MS Word instance.&quot;" />
+  </stage>
+  <stage stageid="0b6088d5-b833-413a-a422-f470998e0366" name="Recover" type="Recover">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit />
+    <display x="165" y="75" />
+    <onsuccess>f81f66be-a88e-4c60-8bd2-4171fa0c3dd7</onsuccess>
+  </stage>
+  <stage stageid="f1beca5a-2dff-40e1-910f-a3f8ef8c2450" name="MAX TRIES" type="Data">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="90" />
+    <datatype>number</datatype>
+    <initialvalue>5</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c15489e4-132e-4af1-9a1f-8b5d3cf1fecc" name="Anchor19" type="Anchor">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="30" w="10" h="10" />
+    <onsuccess>da1d847f-b28b-4227-ae7a-51124d88780a</onsuccess>
+  </stage>
+  <stage stageid="15ebbc28-52b8-4788-ae21-8841d2f6bf56" name="COUNT" type="Data">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="90" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f81f66be-a88e-4c60-8bd2-4171fa0c3dd7" name="Resume" type="Resume">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit />
+    <display x="165" y="135" />
+    <onsuccess>bfc68ed2-18cf-477f-91f3-5910f0789a98</onsuccess>
+  </stage>
+  <stage stageid="bfc68ed2-18cf-477f-91f3-5910f0789a98" name="Count Tries" type="Calculation">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="255" y="135" />
+    <onsuccess>5c6f4682-86f8-4065-9fb8-10202414950c</onsuccess>
+    <calculation expression="[COUNT] + 1" stage="COUNT" />
+  </stage>
+  <stage stageid="5c6f4682-86f8-4065-9fb8-10202414950c" name="Is count &gt; max tries?" type="Decision">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <display x="345" y="135" />
+    <decision expression="[COUNT] &gt; [MAX TRIES]" />
+    <ontrue>a2d478e9-aebc-4162-b57f-e8824d2733b1</ontrue>
+    <onfalse>0c9a0143-a40c-46db-a865-c0dbacc4d608</onfalse>
+  </stage>
+  <stage stageid="0c9a0143-a40c-46db-a865-c0dbacc4d608" name="Anchor20" type="Anchor">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="345" y="30" w="10" h="10" />
+    <onsuccess>c15489e4-132e-4af1-9a1f-8b5d3cf1fecc</onsuccess>
+  </stage>
+  <stage stageid="3a359971-b772-4219-9093-6719b763c988" name="Exception Block" type="Block">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="45" w="195" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="65f24022-d23a-43a0-89b3-31b62bb33cff" name="Create Instance Error" type="Exception">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="525" y="105" />
+    <exception localized="yes" type="Business Exception" detail="&quot;Could not start excel instance.&quot;" />
+  </stage>
+  <stage stageid="e1fca64c-5177-4cd7-b2f3-7b3849f1a3ac" name="Recover" type="Recover">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit />
+    <display x="345" y="-15" />
+    <onsuccess>1b55ad00-af7b-4e4d-b44b-7aca13746ee3</onsuccess>
+  </stage>
+  <stage stageid="b09808a2-487f-47b6-ab8b-6c9eef120ed7" name="MAX TRIES" type="Data">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="150" />
+    <datatype>number</datatype>
+    <initialvalue>5</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="68f882d5-2634-47fb-963f-0381d5242fcf" name="Anchor19" type="Anchor">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="165" y="-60" w="10" h="10" />
+    <onsuccess>bdc20ac8-f625-480b-a196-b11a20da1e1c</onsuccess>
+  </stage>
+  <stage stageid="1feac016-8a49-4c6f-ab8c-d710a9daaf36" name="COUNT" type="Data">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="150" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="1b55ad00-af7b-4e4d-b44b-7aca13746ee3" name="Resume" type="Resume">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit />
+    <display x="345" y="45" />
+    <onsuccess>13863a14-0c04-49ce-8f99-b2c09d69b586</onsuccess>
+  </stage>
+  <stage stageid="13863a14-0c04-49ce-8f99-b2c09d69b586" name="Count Tries" type="Calculation">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="435" y="45" />
+    <onsuccess>c6125cd2-1e46-44a3-90c4-d3bf023936db</onsuccess>
+    <calculation expression="[COUNT] + 1" stage="COUNT" />
+  </stage>
+  <stage stageid="c6125cd2-1e46-44a3-90c4-d3bf023936db" name="Is count &gt; max tries?" type="Decision">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <display x="525" y="45" />
+    <decision expression="[COUNT] &gt; [MAX TRIES]" />
+    <ontrue>65f24022-d23a-43a0-89b3-31b62bb33cff</ontrue>
+    <onfalse>7953ed60-eeb3-4276-8a9f-91238325e269</onfalse>
+  </stage>
+  <stage stageid="7953ed60-eeb3-4276-8a9f-91238325e269" name="Anchor20" type="Anchor">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="525" y="-60" w="10" h="10" />
+    <onsuccess>68f882d5-2634-47fb-963f-0381d5242fcf</onsuccess>
+  </stage>
+  <stage stageid="9bb47449-8f7b-4b90-829f-d57baccd4f44" name="Exception Block" type="Block">
+    <subsheetid>7b2a55f6-e757-4798-a16d-2b8bb7f4bdfb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="120" y="-45" w="270" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="1676a8ac-7c2f-41ae-b0cb-b89799a8d605" name="Get Rows in Collection" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="105" y="285" />
+    <inputs>
+      <input type="text" name="Collection Name" friendlyname="Collection Name" narrative="The name of the collection to act upon" expr="&quot;CLIENT DOC REQ&quot;" />
+    </inputs>
+    <outputs>
+      <output type="number" name="Count" friendlyname="Count" narrative="The number of rows counted in the collection" stage="COLLECTION ROW COUNT" />
+    </outputs>
+    <onsuccess>8529380c-67ee-4667-bd6e-ea6986f300ad</onsuccess>
+    <resource object="Blueprism.AutomateProcessCore.clsCollectionActions" action="Count Rows" />
+  </stage>
+  <stage stageid="7c293977-9f3d-4edd-9302-a3c5287398c0" name="Replace Quotes in Name" type="Calculation">
+    <subsheetid>07cb93ea-5cc7-4b25-a1c6-5afb7b535062</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-60" y="225" />
+    <onsuccess>a8b9639a-a3ab-4f5d-b8dc-0cb417699109</onsuccess>
+    <calculation expression="Replace([CUSTOMER_NAME], &quot;'&quot;, &quot;&quot;)" stage="CUSTOMER_NAME" />
+  </stage>
+  <stage stageid="366fb1b8-a7fc-4cef-a06e-a53c34ca85ec" name="Note1" type="Note">
+    <subsheetid>cd202f01-9ce2-40bd-bd1d-7dff90ad2cec</subsheetid>
+    <narrative>This process will be replaced with computer vision machine learning API, such as Azuer Form Recognizer in the future. The service will allow us to extract information from a larger number of standard forms.</narrative>
+    <display x="315" y="-75" w="150" h="120" />
+    <font family="Segoe UI" size="10" style="Bold" color="0000FF" />
+  </stage>
+  <stage stageid="1a27442d-8275-4dc3-9a46-d64064b30bb0" name="Note2" type="Note">
+    <narrative>In the future, this would be followed by a process that imports the READY TO INVOICE excel file to a custom online application that would record and automatically invoice customers.</narrative>
+    <display x="165" y="600" w="240" h="90" />
+    <font family="Segoe UI" size="10" style="Bold" color="0000FF" />
+  </stage>
+  <stage stageid="45d85647-4c49-4d79-9abe-d5911e6bd5f3" name="Billing Dept Email Address" type="Data">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-240" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">vmclairecollins@gmail.com</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="12675fc4-ef91-47f4-aec2-69dd82965a27" name="Controller Email Address" type="Data">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">rpagroupproject@outlook.com</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="7b847ea7-63e1-4c63-8660-945e0d54729d" name="MISSING DOCUMENTS" type="Collection">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <display x="-240" y="30" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="8d390e26-677b-44b3-a12b-90fe92231df5" name="Collect Emails" type="SubSheetInfo">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="b7690971-f97d-4e72-927b-3901c2c4203b" name="Start" type="Start">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <display x="15" y="-105" />
+    <onsuccess>001c9300-a6b7-45cc-88c8-9f40f74f7d6d</onsuccess>
+  </stage>
+  <stage stageid="3055175e-6ae4-4c66-96db-df256ce135c0" name="End" type="End">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <display x="15" y="255" />
+    <outputs>
+      <output type="collection" name="Emails Receieved" narrative="Collection of Emails Received" stage="Emails Received" />
+    </outputs>
+  </stage>
+  <stage stageid="76e7345d-7d2e-465a-a73b-ce5e4eaf2ee0" name="Get Unread Emails" type="Action">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="135" />
+    <inputs>
+      <input type="text" name="Sender Name" friendlyname="Sender Name" narrative="Optional. The From display name, which might be a name (eg John Smith) or email address (eg admin@client.com). Asterisk wildcard permitted, eg *John Smith* for any mail where the text 'John Smith' appears in the From field." expr="" />
+      <input type="text" name="Sender Email" friendlyname="Sender Email" narrative="Optional. The sender email address." expr="" />
+      <input type="datetime" name="Received Earliest" friendlyname="Received Earliest" narrative="Optional. The earliest date to search from." expr="[Past time increment (day)]" />
+      <input type="datetime" name="Received Latest" friendlyname="Received Latest" narrative="Optional. The latest date to search to." expr="" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="Optional. Asterisk wildcard permitted, eg *Project Update for 'Project Update', 'RE: Project Update' etc." expr="" />
+      <input type="text" name="Message" friendlyname="Message" narrative="Optional. Asterisk wildcard permitted, eg *Blue Prism*" expr="" />
+      <input type="flag" name="Include Read" friendlyname="Include Read" narrative="Optional, default True" expr="False" />
+      <input type="flag" name="Include Unread" friendlyname="Include Unread" narrative="Optional, default True" expr="True" />
+      <input type="text" name="Sub Folder" friendlyname="Sub Folder" narrative="Optional. Any alphanumeric value valid. The Subfolder in the Inbox, eg. Subfolder A needs to be declared as &quot;Subfolder A&quot;. A Nested Subfolder eg. Subfolder B in Subfolder A, needs to be declared as &quot;Subfolder A\Subfolder B&quot;." expr="" />
+      <input type="text" name="Account Display Name" friendlyname="Account Display Name" narrative="Optional. DisplayName of the email account. Default account is used if omitted." expr="" />
+      <input type="text" name="Shared Mailbox" friendlyname="Shared Mailbox" narrative="Optional. Share Mailbox name or email address. Attempt to call Shared Mailbox is only initiated when a vaue is supplied." expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Items" friendlyname="Items" narrative="Details of items matching the filter" stage="Emails Received" />
+      <output type="number" name="Item Count" friendlyname="Item Count" narrative="Number of items matching the filter" stage="Count Emails" />
+    </outputs>
+    <onsuccess>65accf3f-1e01-487c-b863-30f1b0d9abe9</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Get Received Items (Basic)" />
+  </stage>
+  <stage stageid="a2609c5e-8cb3-45e9-ab7e-792a0015a91a" name="Past time increment (day)" type="Data">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="75" />
+    <datatype>datetime</datatype>
+    <initialvalue>2021-03-01 00:00:00Z</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="baaf36ba-0301-41de-ba1f-e7d2fdb65869" name="Get time of past hour" type="Calculation">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="75" />
+    <font family="Segoe UI" size="10" style="Regular" color="99CCFF" />
+    <onsuccess>76e7345d-7d2e-465a-a73b-ce5e4eaf2ee0</onsuccess>
+    <calculation expression="[Currenttime]-(MakeTimeSpan(1, 0, 0, 0))" stage="Past time increment (day)" />
+  </stage>
+  <stage stageid="4b14041b-b268-4adc-b21a-62467a37ed07" name="Currenttime" type="Data">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="75" />
+    <datatype>datetime</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="9b3d42e1-52d3-4331-b7ad-d0516a0be2f7" name="Collect Current Time" type="Calculation">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="15" />
+    <font family="Segoe UI" size="10" style="Regular" color="99CCFF" />
+    <onsuccess>baaf36ba-0301-41de-ba1f-e7d2fdb65869</onsuccess>
+    <calculation expression="Now()" stage="Currenttime" />
+  </stage>
+  <stage stageid="9b3c0c71-c02a-44e4-ac83-2a6c7c8cb91f" name="Count Emails" type="Data">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-525" y="30" />
+    <font family="Segoe UI" size="10" style="Regular" color="800080" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4fca3131-41a4-4c8f-ada4-d937cd12587c" name="Subject keyphrase" type="Data">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-525" y="120" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">*PythonAnywhere*</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ab09e1af-7db0-40fd-b92f-21a899845430" name="Emails Received" type="Collection">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <display x="-225" y="210" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="EntryID" type="text" description="The mail ID. NB this is different from the Mapiex ID." />
+      <field name="To" type="text" description="The display name of the recipient(s)" />
+      <field name="CC" type="text" description="The display name of the copied recipient(s)" />
+      <field name="Subject" type="text" description="The mail subject line" />
+      <field name="Body" type="text" description="The mail message" />
+      <field name="Attachments" type="text" description="The names of the attachements as a CSV string" />
+      <field name="ReceivedOn" type="datetime" description="The date an incoming mail was received" />
+      <field name="SentOn" type="datetime" description="The date an outgoing mail was sent" />
+      <field name="SenderName" type="text" description="The display name of the sender" />
+      <field name="SenderEmailAddress" type="text" description="The email of the sender" />
+      <field name="Unread" type="flag" description="True if an incoming mail has not been read, otherwise False" />
+      <field name="Sensitivity" type="number" description="Sensitivity of an email, from 0 to 3" />
+      <field name="Importance" type="number" description="Importance of an email, from 0 to 2" />
+      <field name="Flag" type="text" description="Flagged status of an email" />
+      <field name="IsHTML" type="flag" description="True if an email is in HTML" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="001c9300-a6b7-45cc-88c8-9f40f74f7d6d" name="Email - POP3/SMTP::Configure" type="Action">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+    <inputs>
+      <input type="text" name="Username" friendlyname="Username" narrative="The POP3 and SMTP Username" expr="[Username]" />
+      <input type="password" name="Password" friendlyname="Password" narrative="The POP3 and SMTP Password" expr="[PasswordDataItem]" />
+      <input type="text" name="POP3 Server" friendlyname="POP3 Server" narrative="The POP3 Server address e.g. pop.domain.com" expr="&quot;outlook.office365.com&quot;" />
+      <input type="text" name="SMTP Server" friendlyname="SMTP Server" narrative="The SMTP Server address e.g. smtp.domain.com" expr="&quot;outlook.office365.com&quot;" />
+      <input type="number" name="POP3 Port" friendlyname="POP3 Port" narrative="The POP3 Port, e.g. 110 or 995" expr="995" />
+      <input type="number" name="SMTP Port" friendlyname="SMTP Port" narrative="The SMTP Port, e.g 25 or 465" expr="587" />
+      <input type="flag" name="POP3 UseSSL" friendlyname="POP3 UseSSL" narrative="Whether to use SSL for POP3" expr="True" />
+      <input type="flag" name="SMTP UseSSL" friendlyname="SMTP UseSSL" narrative="Whether to use SSL for SMTP" expr="True" />
+    </inputs>
+    <onsuccess>9b3d42e1-52d3-4331-b7ad-d0516a0be2f7</onsuccess>
+    <resource object="Email - POP3/SMTP" action="Configure" />
+  </stage>
+  <stage stageid="3023238c-c24f-4132-8d87-463be68ad493" name="Username" type="Data">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="0" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">rpagroupproject@outlook.com</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="261e7024-e28e-4de8-bba5-ab086fb7be92" name="PasswordDataItem" type="Data">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="0" />
+    <datatype>password</datatype>
+    <initialvalueenc>17,7,27,83,8,71,7,36,52,1,68</initialvalueenc>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d0cfb0d7-0dbe-4c47-8906-3c2065487611" name="SendEmailTest" type="Action">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-465" y="30" />
+    <font family="Segoe UI" size="10" style="Regular" color="800080" />
+    <inputs>
+      <input type="text" name="From" friendlyname="From" narrative="The email address of the sender." expr="[Username]" />
+      <input type="text" name="To" friendlyname="To" narrative="The email address of the recipient. To address multiple recipients use the format &quot;john.smith@example.com, henry.jones@example.com&quot; OR &quot;John Smith &lt;john.smith@example.com&gt;, Henry Jones &lt;henry.jones@example.com&gt;&quot;." expr="[Username]" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="The subject of the email." expr="&quot;Test&quot;" />
+      <input type="text" name="Body" friendlyname="Body" narrative="The body of the email." expr="&quot;Test1&quot;" />
+      <input type="collection" name="Attachments" friendlyname="Attachments" narrative="A Collection containing a list of files to add to the email as attachments." expr="" />
+      <input type="flag" name="BodyIsHTML" friendlyname="BodyIsHTML" narrative="Indicates if the body should be sent as HTML" expr="False" />
+    </inputs>
+    <resource object="Email - POP3/SMTP" action="Send Message" />
+  </stage>
+  <stage stageid="f1e92dd3-6f26-49ea-85f7-5027a02bb3f6" name="Email account login details" type="Block">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="-30" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+  </stage>
+  <stage stageid="dbebb756-89c6-41d3-ba5b-bdf1499efaec" name="Time Data Items" type="Block">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="45" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="c6b36098-2b28-4985-b8bf-ad800a1c4355" name="Outlook VBO documentation link" type="Note">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <narrative>https://github.com/blue-prism/ms-outlook-utility/blob/master/README.md</narrative>
+    <display x="-165" y="-195" w="210" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+  </stage>
+  <stage stageid="65accf3f-1e01-487c-b863-30f1b0d9abe9" name="Save Attachments" type="Action">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="195" />
+    <inputs>
+      <input type="text" name="Entry ID" friendlyname="Entry ID" narrative="Mandatory. An ID obtained from one of the Get Item actions in this object. NB not the same as a Mapiex ID." expr="[Emails Received.EntryID]" />
+      <input type="text" name="Folder Path" friendlyname="Folder Path" narrative="Mandatory. The destination folder path for the attachments to be stored. Example &quot;C:\Temp&quot;." expr="[PDF Location to the Main Page]" />
+    </inputs>
+    <onsuccess>3055175e-6ae4-4c66-96db-df256ce135c0</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Save Attachments" />
+  </stage>
+  <stage stageid="88f3ca30-587d-4e3a-a2ae-5a008470249f" name="Temporary Test Actions / Iteam" type="Note">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <narrative>Anything in dark purple is a temporary Action or Data Item only in place to ensure that the process is running. These are not essential to the process flow and can be deleted when moving to production, but could be kept as an easy way to troubleshoot errors. </narrative>
+    <display x="-495" y="-90" w="150" h="150" />
+    <font family="Segoe UI" size="10" style="Regular" color="800080" />
+  </stage>
+  <stage stageid="03df829e-e9f7-4c7f-be96-7e01aad08871" name="Extra Values" type="Block">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <narrative>To be deleted if not used</narrative>
+    <display x="-570" y="90" w="150" h="195" />
+    <font family="Segoe UI" size="10" style="Regular" color="808000" />
+  </stage>
+  <stage stageid="1570a829-96f4-4376-8ff3-98853ed94405" name="Data Items for Testing" type="Block">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-570" y="0" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="993366" />
+  </stage>
+  <stage stageid="f98032cd-73e4-4791-b357-4c1d643204c3" name="Received Email Data Items" type="Block">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="180" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="FFFFFF" />
+  </stage>
+  <stage stageid="3eff4010-08c7-481b-9fc5-47e0a31df325" name="PDF Location to the Main Page" type="Data">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="135" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Users\Elise\Desktop\folder_01</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="89c507d0-6bec-4632-9f53-711b6602c9de" name="Email Address of Interest" type="Data">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-540" y="330" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">vmclairecollins@gmail.com</initialvalue>
+    <private />
+  </stage>
+  <stage stageid="1118e1f8-2e16-4aef-819c-5874efc9c669" name="Calc1" type="Calculation">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-465" y="510" />
+    <calculation expression="" stage="" />
+  </stage>
+  <stage stageid="77b7ef78-cc63-4e83-8e57-569efb7ffce2" name="Utility - Collection Manipulation::Get Collection Fields" type="Action">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-570" y="450" />
+    <inputs>
+      <input type="collection" name="Input Collection" friendlyname="Input Collection" narrative="The collection to get the fields from." expr="[Emails Received]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Collection Fields" friendlyname="Collection Fields" narrative="A collection containing the fields." stage="Name of Attachment - Collection" />
+    </outputs>
+    <resource object="Utility - Collection Manipulation" action="Get Collection Fields" />
+  </stage>
+  <stage stageid="df13b3b6-a365-48fe-81a3-1e81d0f8682c" name="Find Most Recent Email" type="LoopStart">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-465" y="330" />
+    <groupid>688f4126-b7e1-41df-af11-4ad316288465</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>Emails Received</loopdata>
+  </stage>
+  <stage stageid="4b2193e7-9ce6-49f1-ada8-5dce08a1c57d" name="Find Most Recent Email" type="LoopEnd">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-465" y="465" />
+    <groupid>688f4126-b7e1-41df-af11-4ad316288465</groupid>
+  </stage>
+  <stage stageid="8944cc36-1567-4fea-b8ed-4c04ac2faea9" name="Calc2" type="Calculation">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-465" y="405" />
+    <calculation expression="[Emails Received.ReceivedOn]" stage="" />
+  </stage>
+  <stage stageid="bb769d27-1870-4526-bc6d-7545127e8ca0" name="Action1" type="Action">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-570" y="540" />
+    <resource object="" action="" />
+  </stage>
+  <stage stageid="6e318fe7-e711-442e-b093-4cb8c501d569" name="HasAttachments" type="Collection">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <display x="-165" y="210" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="edff327a-dcfc-4758-b871-8f8f43e1309b" name="Get Next Attachment" type="Action">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <loginhibit onsuccess="true" />
+    <narrative>Get data relating to an item in a queue. You do not need to have a lock on the item to do this.</narrative>
+    <display x="-555" y="390" />
+    <inputs>
+      <input type="text" name="Item ID" friendlyname="Item ID" narrative="The ID of the item to get data from. An error will be raised if this item does not exist." expr="[Emails Received.Attachments]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Key" friendlyname="Key" narrative="The key value of the item." stage="Attachment Name" />
+      <output type="number" name="Priority" friendlyname="Priority" narrative="The priority of the item" stage="" />
+      <output type="text" name="Status" friendlyname="Status" narrative="The status of the item." stage="" />
+      <output type="number" name="Attempts" friendlyname="Attempts" narrative="The number of attempts already made to work this item." stage="" />
+      <output type="timespan" name="Worktime" friendlyname="Worktime" narrative="The total time spent on this item (including previous attempts)" stage="" />
+      <output type="timespan" name="Attempt Worktime" friendlyname="Attempt Worktime" narrative="The amount of time spent on this particular attempt of the item" stage="" />
+      <output type="datetime" name="Loaded DateTime" friendlyname="Loaded DateTime" narrative="The date and time at which this item was first loaded into the queue." stage="" />
+      <output type="datetime" name="Deferred DateTime" friendlyname="Deferred DateTime" narrative="The date and time at which this item has been deferred to. Empty if this item has not been deferred." stage="" />
+      <output type="datetime" name="Completed DateTime" friendlyname="Completed DateTime" narrative="The date and time at which this item was marked as complete. Empty if this item has not been marked as complete" stage="" />
+      <output type="datetime" name="Exception DateTime" friendlyname="Exception DateTime" narrative="The date and time at which this item was marked as an exception. Empty if there has never been an exception on this item." stage="" />
+      <output type="text" name="Exception Reason" friendlyname="Exception Reason" narrative="The exception reason recorded against this item." stage="" />
+      <output type="text" name="Tags" friendlyname="Tags" narrative="The semi-colon separated set of tags which apply to the item. " stage="" />
+      <output type="collection" name="Data" friendlyname="Data" narrative="The data associated with the item - a single collection row." stage="Attachment Names" />
+    </outputs>
+    <resource object="Blueprism.Automate.clsWorkQueuesActions" action="Get Item Data" />
+  </stage>
+  <stage stageid="e95fb97c-0755-4ca1-8c30-ba7664ccb80f" name="Item IDs" type="Collection">
+    <subsheetid>bcac95f2-f5b7-4e9e-a402-5b122bd44664</subsheetid>
+    <display x="-525" y="60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b7a074c2-0bfd-4404-9ba2-af2ee8be617a" name="Queue Start" type="SubSheetInfo">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="546426b2-e750-403e-a989-af7a1071280d" name="Start" type="Start">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <display x="15" y="-105" />
+  </stage>
+  <stage stageid="507953f9-96fe-4f93-98a6-b611551f2921" name="End" type="End">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="1e8ca388-ed38-49a8-b560-a80ea2af77fb" name="Add to Queue" type="Action">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <loginhibit onsuccess="true" />
+    <narrative>The Data collection contains the items to be added to the queue. The collection may contain single or multiple rows, with each representing an item to be added.
+
+If there is a failure during the process, the queue will be unchanged - i.e. no rows will be loaded even if the error occurred on the last one.
+
+If Defer Until is specified, the items will not be available to be worked until then. Otherwise, they are available immediately.
+
+If the queue has a key field defined, an item added has key data longer than the maximum permitted 255 characters, an error will occur</narrative>
+    <display x="135" y="-90" />
+    <inputs>
+      <input type="text" name="Queue Name" friendlyname="Queue Name" narrative="The name of the queue to add items to" expr="&quot;Q.March2021&quot;" />
+      <input type="collection" name="Data" friendlyname="Data" narrative="A collection containing the data, one row for each item to be added" expr="[Emails Received]" />
+      <input type="datetime" name="Defer Until" friendlyname="Defer Until" narrative="Optionally, the date/time the new item(s) should be deferred until" expr="" />
+      <input type="number" name="Priority" friendlyname="Priority" narrative="Optionally, the priority for the new item(s). Lower numbers represent higher priorities. The default is 0." expr="" />
+      <input type="text" name="Tags" friendlyname="Tags" narrative="Optionally, a semi-colon-separated set of tags to apply to the queue item(s)" expr="" />
+      <input type="text" name="Status" friendlyname="Status" narrative="Optionally, the initial status required of the work queue item(s) " expr="" />
+      <input type="number" name="Batch Size" friendlyname="Batch Size" narrative="Optionally, the batch size to use when adding many items to the queue.  A Value of 0 will process all items in one batch.  An empty field will use the default batch size of 1000." expr="">
+        <validator type="BluePrism.AutomateProcessCore.RangeParameterValidation" parameter="0:25000" />
+      </input>
+    </inputs>
+    <outputs>
+      <output type="collection" name="Item IDs" friendlyname="Item IDs" narrative="The IDs of the items which have been added to the queue, in the order of the collection of data passed that was input" stage="Item IDs" />
+    </outputs>
+    <onsuccess>604d734d-baac-412c-ae1c-03a9e6b4a26a</onsuccess>
+    <resource object="Blueprism.Automate.clsWorkQueuesActions" action="Add To Queue" />
+  </stage>
+  <stage stageid="604d734d-baac-412c-ae1c-03a9e6b4a26a" name="Get Next Item" type="Action">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <narrative>This action gets the next item to be worked from the queue, returning its details and locking it so no other case can work it.
+
+Items with higher priorities (lower numerical value) are processed first. Where the priority is the same, the next item is the one that has been in the queue the longest,  is not already locked, and is not already completed.
+
+The Item ID returned is used to make further calls to update the work status for that item. It may be empty, in which case there are no items available. This can mean either a) the queue is empty, or b) the queue is not running. This mechanism can be used to cleanly stop all processes working a particular queue at the end of the next case. Items that have a 'deferred' time set will not be returned unless that time has been reached.</narrative>
+    <display x="135" y="-45" />
+    <inputs>
+      <input type="text" name="Queue Name" friendlyname="Queue Name" narrative="The name of the queue" expr="&quot;Q.March2021&quot;" />
+      <input type="text" name="Key Filter" friendlyname="Key Filter" narrative="Optionally, a key value to filter by. Only items with this key value will be considered." expr="" />
+      <input type="text" name="Tag Filter" friendlyname="Tag Filter" narrative="Optionally, a tag mask to filter by. This can consist of any number of tag searches - each term can be separated by a semi-colon and they are all applied to the search (ie. they are AND'ed terms not OR'ed terms). For example, &quot;Account: Joint; -Balance: Overdrawn; Card: *Visa*&quot; will include any items which match all the terms, ie. every item must have an 'Account: Joint' tag applied, no item can have a 'Balance: Overdrawn' tag applied, every item must have a tag applied which starts with 'Card: ' and then contains the text 'Visa'." expr="" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Item ID" friendlyname="Item ID" narrative="The ID of the item retrieved - empty if there are none available." stage="Item ID" />
+      <output type="collection" name="Data" friendlyname="Data" narrative="The data associated with the item - a single collection row." stage="Data" />
+      <output type="text" name="Status" friendlyname="Status" narrative="The status of the item." stage="" />
+      <output type="number" name="Attempts" friendlyname="Attempts" narrative="The number of attempts already made to work this item." stage="" />
+    </outputs>
+    <onsuccess>fafd7666-15f7-4b83-abd1-19ddf6a69951</onsuccess>
+    <resource object="Blueprism.Automate.clsWorkQueuesActions" action="Get Next Item" />
+  </stage>
+  <stage stageid="fafd7666-15f7-4b83-abd1-19ddf6a69951" name="Get Attachment Name" type="Calculation">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="135" y="15" />
+    <onsuccess>19dfdfa5-03ca-4094-b00e-7b0a650c4c09</onsuccess>
+    <calculation expression="[Data.Attachments]" stage="Attachment Name" />
+  </stage>
+  <stage stageid="19dfdfa5-03ca-4094-b00e-7b0a650c4c09" name="Make Attachment Path" type="Calculation">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="135" y="75" />
+    <calculation expression="[PDF Location to the Main Page]&amp;&quot;\&quot;&amp;[Attachment Name]" stage="Attachment Location Path" />
+  </stage>
+  <stage stageid="198480e3-aff0-4cb6-9168-70961f5197ee" name="Item ID" type="Data">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="feafd530-77df-4b5e-afc2-8dff19ba1e1f" name="Data" type="Collection">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <display x="-225" y="-15" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="3e91fdb0-80dd-4f81-b9ce-6bb47a1a7895" name="Attachment Name" type="Data">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="e8523312-7707-42d2-906c-8adbf2a9a605" name="Attachment Location Path" type="Data">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="e26ba9dc-63a0-4085-83c6-10fbc24bb7d5" name="Filter Collection" type="Action">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="465" y="-60" />
+    <inputs>
+      <input type="collection" name="Collection In" friendlyname="Collection In" narrative="The collection to filter." expr="[Emails Received]" />
+      <input type="text" name="Filter" friendlyname="Filter" narrative="The filter query." expr="[Emails Received.Attachments] &lt;&gt; &quot; &quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Collection Out" friendlyname="Collection Out" narrative="The filtered collection." stage="HasAttachments" />
+    </outputs>
+    <resource object="Utility - Collection Manipulation" action="Filter Collection" />
+  </stage>
+  <stage stageid="70f0fd92-e483-482a-894b-dac9121c3294" name="If no attachment" type="Note">
+    <subsheetid>d227ad9d-457c-4351-a58f-b9b7491741b1</subsheetid>
+    <narrative>If email has no attachment, throw exception and skip it in the Queue. Also would need to Delete it from the Queue.</narrative>
+    <display x="300" y="-60" w="180" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+  </stage>
+  <stage stageid="7d16840b-e2d2-4853-9fb4-bbb7f2ff7a88" name="Start" type="Start">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <display x="60" y="-105" />
+    <onsuccess>85472782-4294-4c91-ba87-8791c0704e8d</onsuccess>
+  </stage>
+  <stage stageid="d3dec8a3-5266-4f58-ad54-b6ce69e6c125" name="End" type="End">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <display x="60" y="90" />
+  </stage>
+  <stage stageid="ca145be4-e842-46da-a52c-fa4f70a9d8b5" name="SendEmail" type="Action">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="30" />
+    <inputs>
+      <input type="text" name="To" friendlyname="To" narrative="Mandatory. Any alphanumeric value allowed. Single Recipient = &quot;Name1@emaill.com&quot;; Multi Recipient = &quot;Name1@emaill.com; Name2@email.com&quot;" expr="[Billing Dept Email Address]" />
+      <input type="text" name="CC" friendlyname="CC" narrative="Optional. Any alphanumeric value allowed. Single Recipient = &quot;Name1@emaill.com&quot;; Multi Recipient = &quot;Name1@emaill.com; Name2@email.com&quot;. Default blank" expr="[Controller Email Address]" />
+      <input type="text" name="BCC" friendlyname="BCC" narrative="Optional. Any alphanumeric value allowed. Single Recipient = &quot;Name1@emaill.com&quot;; Multi Recipient = &quot;Name1@emaill.com; Name2@email.com&quot;. Default blank" expr="" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="Optional. Any alphanumeric value allowed." expr="&quot;Missing Documents&quot;" />
+      <input type="text" name="Message" friendlyname="Message" narrative="Optional, HTML or plain text" expr="" />
+      <input type="text" name="Attachments" friendlyname="Attachments" narrative="Optional, Semicolon--separated file paths. Default blank." expr="" />
+      <input type="flag" name="IsHTML" friendlyname="IsHTML" narrative="Optional. True or False, default to True" expr="" />
+      <input type="number" name="Sensitivity" friendlyname="Sensitivity" narrative="Optional. An integer between 0 and 3, default to 0." expr="" />
+      <input type="number" name="Importance" friendlyname="Importance" narrative="Optional. An integer between 0 and 2 default to 1." expr="" />
+      <input type="text" name="Account Display Name" friendlyname="Account Display Name" narrative="Optional. DisplayName of the email account. Default account is used if omitted." expr="" />
+    </inputs>
+    <onsuccess>d3dec8a3-5266-4f58-ad54-b6ce69e6c125</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Send Email" />
+  </stage>
+  <stage stageid="85472782-4294-4c91-ba87-8791c0704e8d" name="Email - POP3/SMTP::Configure" type="Action">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="60" y="-45" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+    <inputs>
+      <input type="text" name="Username" friendlyname="Username" narrative="The POP3 and SMTP Username" expr="[Username]" />
+      <input type="password" name="Password" friendlyname="Password" narrative="The POP3 and SMTP Password" expr="[PasswordDataItem]" />
+      <input type="text" name="POP3 Server" friendlyname="POP3 Server" narrative="The POP3 Server address e.g. pop.domain.com" expr="&quot;outlook.office365.com&quot;" />
+      <input type="text" name="SMTP Server" friendlyname="SMTP Server" narrative="The SMTP Server address e.g. smtp.domain.com" expr="&quot;outlook.office365.com&quot;" />
+      <input type="number" name="POP3 Port" friendlyname="POP3 Port" narrative="The POP3 Port, e.g. 110 or 995" expr="995" />
+      <input type="number" name="SMTP Port" friendlyname="SMTP Port" narrative="The SMTP Port, e.g 25 or 465" expr="587" />
+      <input type="flag" name="POP3 UseSSL" friendlyname="POP3 UseSSL" narrative="Whether to use SSL for POP3" expr="True" />
+      <input type="flag" name="SMTP UseSSL" friendlyname="SMTP UseSSL" narrative="Whether to use SSL for SMTP" expr="True" />
+    </inputs>
+    <onsuccess>ca145be4-e842-46da-a52c-fa4f70a9d8b5</onsuccess>
+    <resource object="Email - POP3/SMTP" action="Configure" />
+  </stage>
+  <stage stageid="adee025d-b392-4df3-9847-805434f2f6d6" name="Username" type="Data">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-240" y="105" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">rpagroupproject@outlook.com</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ee767a8d-d83d-4701-8c79-e2c7949a5b70" name="PasswordDataItem" type="Data">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-180" y="105" />
+    <datatype>password</datatype>
+    <initialvalueenc>17,7,27,83,8,71,7,36,52,1,68</initialvalueenc>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="fcd8d568-4f14-4513-ba02-a96961717ce5" name="Email Login Data Items" type="Block">
+    <subsheetid>039455c9-1c36-45b4-ab2e-fa8e8682432a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="75" w="135" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+  </stage>
+</process>
