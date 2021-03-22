@@ -1,0 +1,569 @@
+﻿<process name="OpenOutlook" version="1.0" bpversion="6.10.0.30674" narrative="test to open outlook" byrefcollection="true" preferredid="ff1c6c05-fd4a-4984-9881-f9e22e4bd697">
+  <view>
+    <camerax>283</camerax>
+    <cameray>300</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="6c9bc1d6-56d2-4289-bd37-3250940d0164" type="Normal" published="False">
+    <name>SendEmail</name>
+    <view>
+      <camerax>-126</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="685c1715-45ef-4bd7-a68a-734158b8025e" name="Start" type="Start">
+    <display x="15" y="-120" />
+    <onsuccess>f56c77e1-8a5a-4a64-a46f-3996e935fe88</onsuccess>
+  </stage>
+  <stage stageid="fa3e3c4f-7ff0-430e-91fd-d39e374fc3a9" name="End" type="End">
+    <display x="360" y="195" />
+  </stage>
+  <stage stageid="8060a010-1458-4f47-b206-ddb46e8c5cf7" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="065a054b-0ceb-44b1-a5ed-b3f66344fcd1" name="Get Unread Emails" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="75" />
+    <inputs>
+      <input type="text" name="Sender Name" friendlyname="Sender Name" narrative="Optional. The From display name, which might be a name (eg John Smith) or email address (eg admin@client.com). Asterisk wildcard permitted, eg *John Smith* for any mail where the text 'John Smith' appears in the From field." expr="" />
+      <input type="text" name="Sender Email" friendlyname="Sender Email" narrative="Optional. The sender email address." expr="" />
+      <input type="datetime" name="Received Earliest" friendlyname="Received Earliest" narrative="Optional. The earliest date to search from." expr="[Past time increment (day)]" />
+      <input type="datetime" name="Received Latest" friendlyname="Received Latest" narrative="Optional. The latest date to search to." expr="" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="Optional. Asterisk wildcard permitted, eg *Project Update for 'Project Update', 'RE: Project Update' etc." expr="" />
+      <input type="text" name="Message" friendlyname="Message" narrative="Optional. Asterisk wildcard permitted, eg *Blue Prism*" expr="" />
+      <input type="flag" name="Include Read" friendlyname="Include Read" narrative="Optional, default True" expr="False" />
+      <input type="flag" name="Include Unread" friendlyname="Include Unread" narrative="Optional, default True" expr="True" />
+      <input type="text" name="Sub Folder" friendlyname="Sub Folder" narrative="Optional. Any alphanumeric value valid. The Subfolder in the Inbox, eg. Subfolder A needs to be declared as &quot;Subfolder A&quot;. A Nested Subfolder eg. Subfolder B in Subfolder A, needs to be declared as &quot;Subfolder A\Subfolder B&quot;." expr="" />
+      <input type="text" name="Account Display Name" friendlyname="Account Display Name" narrative="Optional. DisplayName of the email account. Default account is used if omitted." expr="" />
+      <input type="text" name="Shared Mailbox" friendlyname="Shared Mailbox" narrative="Optional. Share Mailbox name or email address. Attempt to call Shared Mailbox is only initiated when a vaue is supplied." expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Items" friendlyname="Items" narrative="Details of items matching the filter" stage="Emails Received" />
+      <output type="number" name="Item Count" friendlyname="Item Count" narrative="Number of items matching the filter" stage="Count Emails" />
+    </outputs>
+    <onsuccess>aac9d777-7bb4-4d10-98db-0f0391ee35b0</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Get Received Items (Basic)" />
+  </stage>
+  <stage stageid="db57cb5c-3750-4a4a-9ef8-d6fd8fec1b96" name="Past time increment (day)" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="75" />
+    <datatype>datetime</datatype>
+    <initialvalue>2021-03-01 00:00:00Z</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="7ad404b3-1860-48dd-b3bf-7390b5ee41e2" name="Get time of past hour" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="165" y="75" />
+    <font family="Segoe UI" size="10" style="Regular" color="99CCFF" />
+    <onsuccess>065a054b-0ceb-44b1-a5ed-b3f66344fcd1</onsuccess>
+    <calculation expression="[Currenttime]-(MakeTimeSpan(1, 0, 0, 0))" stage="Past time increment (day)" />
+  </stage>
+  <stage stageid="2021d033-0343-4ddc-a4e3-a977bbd2f7ea" name="Currenttime" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="75" />
+    <datatype>datetime</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b99c6fa2-171d-4ea3-9954-4b3d3d8bcb74" name="Collect Current Time" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="165" y="-15" />
+    <font family="Segoe UI" size="10" style="Regular" color="99CCFF" />
+    <onsuccess>7ad404b3-1860-48dd-b3bf-7390b5ee41e2</onsuccess>
+    <calculation expression="Now()" stage="Currenttime" />
+  </stage>
+  <stage stageid="79324095-4589-4a41-a181-0ca6daa2f060" name="Count Emails" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-525" y="30" />
+    <font family="Segoe UI" size="10" style="Regular" color="800080" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="28f32bcb-4b95-4dbc-bf8b-ca9452758d5e" name="Subject keyphrase" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-525" y="120" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">*PythonAnywhere*</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2397689f-5c28-4069-bc08-0f7a1cbaeb73" name="Emails Received" type="Collection">
+    <display x="-225" y="210" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="EntryID" type="text" description="The mail ID. NB this is different from the Mapiex ID." />
+      <field name="To" type="text" description="The display name of the recipient(s)" />
+      <field name="CC" type="text" description="The display name of the copied recipient(s)" />
+      <field name="Subject" type="text" description="The mail subject line" />
+      <field name="Body" type="text" description="The mail message" />
+      <field name="Attachments" type="text" description="The names of the attachements as a CSV string" />
+      <field name="ReceivedOn" type="datetime" description="The date an incoming mail was received" />
+      <field name="SentOn" type="datetime" description="The date an outgoing mail was sent" />
+      <field name="SenderName" type="text" description="The display name of the sender" />
+      <field name="SenderEmailAddress" type="text" description="The email of the sender" />
+      <field name="Unread" type="flag" description="True if an incoming mail has not been read, otherwise False" />
+      <field name="Sensitivity" type="number" description="Sensitivity of an email, from 0 to 3" />
+      <field name="Importance" type="number" description="Importance of an email, from 0 to 2" />
+      <field name="Flag" type="text" description="Flagged status of an email" />
+      <field name="IsHTML" type="flag" description="True if an email is in HTML" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="f56c77e1-8a5a-4a64-a46f-3996e935fe88" name="Email - POP3/SMTP::Configure" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+    <inputs>
+      <input type="text" name="Username" friendlyname="Username" narrative="The POP3 and SMTP Username" expr="[Username]" />
+      <input type="password" name="Password" friendlyname="Password" narrative="The POP3 and SMTP Password" expr="[PasswordDataItem]" />
+      <input type="text" name="POP3 Server" friendlyname="POP3 Server" narrative="The POP3 Server address e.g. pop.domain.com" expr="&quot;outlook.office365.com&quot;" />
+      <input type="text" name="SMTP Server" friendlyname="SMTP Server" narrative="The SMTP Server address e.g. smtp.domain.com" expr="&quot;outlook.office365.com&quot;" />
+      <input type="number" name="POP3 Port" friendlyname="POP3 Port" narrative="The POP3 Port, e.g. 110 or 995" expr="995" />
+      <input type="number" name="SMTP Port" friendlyname="SMTP Port" narrative="The SMTP Port, e.g 25 or 465" expr="587" />
+      <input type="flag" name="POP3 UseSSL" friendlyname="POP3 UseSSL" narrative="Whether to use SSL for POP3" expr="True" />
+      <input type="flag" name="SMTP UseSSL" friendlyname="SMTP UseSSL" narrative="Whether to use SSL for SMTP" expr="True" />
+    </inputs>
+    <onsuccess>b99c6fa2-171d-4ea3-9954-4b3d3d8bcb74</onsuccess>
+    <resource object="Email - POP3/SMTP" action="Configure" />
+  </stage>
+  <stage stageid="d77025b9-0e27-4f2f-ba3c-518ac1151e15" name="Username" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="0" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">rpagroupproject@outlook.com</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="64e1abe9-a771-4a69-a980-f6e6bed16694" name="PasswordDataItem" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="0" />
+    <datatype>password</datatype>
+    <initialvalueenc>17,7,27,83,8,71,7,36,52,1,68</initialvalueenc>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="498eb199-0081-4e9b-90fb-e2425950d166" name="SendEmailTest" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="-465" y="30" />
+    <font family="Segoe UI" size="10" style="Regular" color="800080" />
+    <inputs>
+      <input type="text" name="From" friendlyname="From" narrative="The email address of the sender." expr="[Username]" />
+      <input type="text" name="To" friendlyname="To" narrative="The email address of the recipient. To address multiple recipients use the format &quot;john.smith@example.com, henry.jones@example.com&quot; OR &quot;John Smith &lt;john.smith@example.com&gt;, Henry Jones &lt;henry.jones@example.com&gt;&quot;." expr="[Username]" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="The subject of the email." expr="&quot;Test&quot;" />
+      <input type="text" name="Body" friendlyname="Body" narrative="The body of the email." expr="&quot;Test1&quot;" />
+      <input type="collection" name="Attachments" friendlyname="Attachments" narrative="A Collection containing a list of files to add to the email as attachments." expr="" />
+      <input type="flag" name="BodyIsHTML" friendlyname="BodyIsHTML" narrative="Indicates if the body should be sent as HTML" expr="False" />
+    </inputs>
+    <resource object="Email - POP3/SMTP" action="Send Message" />
+  </stage>
+  <stage stageid="0d20b9d4-eb30-4116-9eac-befe76bef1ba" name="Email account login details" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="-30" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+  </stage>
+  <stage stageid="9eff3d08-bba1-4274-8209-98817cd89b97" name="Time Data Items" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="45" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="cf0890aa-1699-4bfb-9110-8f97fef7dcbb" name="Outlook VBO documentation link" type="Note">
+    <narrative>https://github.com/blue-prism/ms-outlook-utility/blob/master/README.md</narrative>
+    <display x="-165" y="-195" w="210" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+  </stage>
+  <stage stageid="aac9d777-7bb4-4d10-98db-0f0391ee35b0" name="Save Attachments" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="135" />
+    <inputs>
+      <input type="text" name="Entry ID" friendlyname="Entry ID" narrative="Mandatory. An ID obtained from one of the Get Item actions in this object. NB not the same as a Mapiex ID." expr="[Emails Received.EntryID]" />
+      <input type="text" name="Folder Path" friendlyname="Folder Path" narrative="Mandatory. The destination folder path for the attachments to be stored. Example &quot;C:\Temp&quot;." expr="[PDF Location to the Main Page]" />
+    </inputs>
+    <onsuccess>21de294b-811f-459d-9e71-abf23515b067</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Save Attachments" />
+  </stage>
+  <stage stageid="da9f87c9-388b-4871-bdfb-f1b938dbaf9c" name="Temporary Test Actions / Iteam" type="Note">
+    <narrative>Anything in dark purple is a temporary Action or Data Item only in place to ensure that the process is running. These are not essential to the process flow and can be deleted when moving to production, but could be kept as an easy way to troubleshoot errors. </narrative>
+    <display x="-495" y="-90" w="150" h="150" />
+    <font family="Segoe UI" size="10" style="Regular" color="800080" />
+  </stage>
+  <stage stageid="d1d5effa-5ade-437f-b547-6b7ab9c3d0c3" name="Extra Values" type="Block">
+    <loginhibit onsuccess="true" />
+    <narrative>To be deleted if not used</narrative>
+    <display x="-570" y="90" w="150" h="195" />
+    <font family="Segoe UI" size="10" style="Regular" color="808000" />
+  </stage>
+  <stage stageid="0b812e45-2c6b-4537-be2a-50721c76088c" name="Data Items for Testing" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-570" y="0" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="993366" />
+  </stage>
+  <stage stageid="bfc837e2-724c-4135-afad-4e1d9e37dbd5" name="Received Email Data Items" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="180" w="150" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="FFFFFF" />
+  </stage>
+  <stage stageid="9f3e0307-22e2-4037-b348-09c516462bad" name="PDF Location to the Main Page" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="135" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Users\Elise\Desktop\folder_01</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="e1a3d63e-81fa-452b-88b4-3fcaf70971a3" name="Email Address of Interest" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-540" y="330" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">vmclairecollins@gmail.com</initialvalue>
+    <private />
+  </stage>
+  <stage stageid="4c092563-a840-486b-85a5-40d8ae95734a" name="Calc1" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="-465" y="510" />
+    <calculation expression="" stage="" />
+  </stage>
+  <stage stageid="cd1db2cc-001e-4270-b714-39b08d981f21" name="Filter Collection" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="570" y="270" />
+    <inputs>
+      <input type="collection" name="Collection In" friendlyname="Collection In" narrative="The collection to filter." expr="[Emails Received]" />
+      <input type="text" name="Filter" friendlyname="Filter" narrative="The filter query." expr="[Emails Received.Attachments] &lt;&gt; &quot; &quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Collection Out" friendlyname="Collection Out" narrative="The filtered collection." stage="HasAttachments" />
+    </outputs>
+    <resource object="Utility - Collection Manipulation" action="Filter Collection" />
+  </stage>
+  <stage stageid="61813b3b-3a04-486d-9991-1a12aae110c8" name="Utility - Collection Manipulation::Get Collection Fields" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="-570" y="450" />
+    <inputs>
+      <input type="collection" name="Input Collection" friendlyname="Input Collection" narrative="The collection to get the fields from." expr="[Emails Received]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Collection Fields" friendlyname="Collection Fields" narrative="A collection containing the fields." stage="Name of Attachment - Collection" />
+    </outputs>
+    <resource object="Utility - Collection Manipulation" action="Get Collection Fields" />
+  </stage>
+  <stage stageid="c849b82d-2f73-4045-bde7-ae460b332456" name="Find Most Recent Email" type="LoopStart">
+    <loginhibit onsuccess="true" />
+    <display x="-465" y="330" />
+    <groupid>0b85aaea-e640-4290-aab0-3bb86737d2cc</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>Emails Received</loopdata>
+  </stage>
+  <stage stageid="3765b340-d578-4d23-a485-ce6aeb48d71e" name="Find Most Recent Email" type="LoopEnd">
+    <loginhibit onsuccess="true" />
+    <display x="-465" y="465" />
+    <groupid>0b85aaea-e640-4290-aab0-3bb86737d2cc</groupid>
+  </stage>
+  <stage stageid="cc5ba9b0-d92c-437c-87b0-9cf34c4fba6d" name="Calc2" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="-465" y="405" />
+    <calculation expression="[Emails Received.ReceivedOn]" stage="" />
+  </stage>
+  <stage stageid="c2e56c41-85e2-4126-9863-7a7cb3b9fcb8" name="Action1" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="-570" y="540" />
+    <resource object="" action="" />
+  </stage>
+  <stage stageid="ae30c9a8-1ea5-4e18-9409-45177138f0bd" name="HasAttachments" type="Collection">
+    <display x="-165" y="210" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="21de294b-811f-459d-9e71-abf23515b067" name="Add to Queue" type="Action">
+    <loginhibit onsuccess="true" />
+    <narrative>The Data collection contains the items to be added to the queue. The collection may contain single or multiple rows, with each representing an item to be added.
+
+If there is a failure during the process, the queue will be unchanged - i.e. no rows will be loaded even if the error occurred on the last one.
+
+If Defer Until is specified, the items will not be available to be worked until then. Otherwise, they are available immediately.
+
+If the queue has a key field defined, an item added has key data longer than the maximum permitted 255 characters, an error will occur</narrative>
+    <display x="15" y="195" />
+    <inputs>
+      <input type="text" name="Queue Name" friendlyname="Queue Name" narrative="The name of the queue to add items to" expr="&quot;Q.March2021&quot;" />
+      <input type="collection" name="Data" friendlyname="Data" narrative="A collection containing the data, one row for each item to be added" expr="[Emails Received]" />
+      <input type="datetime" name="Defer Until" friendlyname="Defer Until" narrative="Optionally, the date/time the new item(s) should be deferred until" expr="" />
+      <input type="number" name="Priority" friendlyname="Priority" narrative="Optionally, the priority for the new item(s). Lower numbers represent higher priorities. The default is 0." expr="" />
+      <input type="text" name="Tags" friendlyname="Tags" narrative="Optionally, a semi-colon-separated set of tags to apply to the queue item(s)" expr="" />
+      <input type="text" name="Status" friendlyname="Status" narrative="Optionally, the initial status required of the work queue item(s) " expr="" />
+      <input type="number" name="Batch Size" friendlyname="Batch Size" narrative="Optionally, the batch size to use when adding many items to the queue.  A Value of 0 will process all items in one batch.  An empty field will use the default batch size of 1000." expr="">
+        <validator type="BluePrism.AutomateProcessCore.RangeParameterValidation" parameter="0:25000" />
+      </input>
+    </inputs>
+    <outputs>
+      <output type="collection" name="Item IDs" friendlyname="Item IDs" narrative="The IDs of the items which have been added to the queue, in the order of the collection of data passed that was input" stage="Item IDs" />
+    </outputs>
+    <onsuccess>6bd088cb-f227-4f33-8034-2169cf2e8db3</onsuccess>
+    <resource object="Blueprism.Automate.clsWorkQueuesActions" action="Add To Queue" />
+  </stage>
+  <stage stageid="504eae9b-04a6-4889-b82b-9fe0d663547d" name="Get Next Attachment" type="Action">
+    <loginhibit onsuccess="true" />
+    <narrative>Get data relating to an item in a queue. You do not need to have a lock on the item to do this.</narrative>
+    <display x="-555" y="390" />
+    <inputs>
+      <input type="text" name="Item ID" friendlyname="Item ID" narrative="The ID of the item to get data from. An error will be raised if this item does not exist." expr="[Emails Received.Attachments]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Key" friendlyname="Key" narrative="The key value of the item." stage="Attachment Name" />
+      <output type="number" name="Priority" friendlyname="Priority" narrative="The priority of the item" stage="" />
+      <output type="text" name="Status" friendlyname="Status" narrative="The status of the item." stage="" />
+      <output type="number" name="Attempts" friendlyname="Attempts" narrative="The number of attempts already made to work this item." stage="" />
+      <output type="timespan" name="Worktime" friendlyname="Worktime" narrative="The total time spent on this item (including previous attempts)" stage="" />
+      <output type="timespan" name="Attempt Worktime" friendlyname="Attempt Worktime" narrative="The amount of time spent on this particular attempt of the item" stage="" />
+      <output type="datetime" name="Loaded DateTime" friendlyname="Loaded DateTime" narrative="The date and time at which this item was first loaded into the queue." stage="" />
+      <output type="datetime" name="Deferred DateTime" friendlyname="Deferred DateTime" narrative="The date and time at which this item has been deferred to. Empty if this item has not been deferred." stage="" />
+      <output type="datetime" name="Completed DateTime" friendlyname="Completed DateTime" narrative="The date and time at which this item was marked as complete. Empty if this item has not been marked as complete" stage="" />
+      <output type="datetime" name="Exception DateTime" friendlyname="Exception DateTime" narrative="The date and time at which this item was marked as an exception. Empty if there has never been an exception on this item." stage="" />
+      <output type="text" name="Exception Reason" friendlyname="Exception Reason" narrative="The exception reason recorded against this item." stage="" />
+      <output type="text" name="Tags" friendlyname="Tags" narrative="The semi-colon separated set of tags which apply to the item. " stage="" />
+      <output type="collection" name="Data" friendlyname="Data" narrative="The data associated with the item - a single collection row." stage="Attachment Names" />
+    </outputs>
+    <resource object="Blueprism.Automate.clsWorkQueuesActions" action="Get Item Data" />
+  </stage>
+  <stage stageid="f89fdd12-4c48-4049-8cbc-05043ff9cad2" name="Attachment Name" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="270" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f0eb9b19-cfaf-4802-97a4-af5b582b5d33" name="Item IDs" type="Collection">
+    <display x="-525" y="60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6bd088cb-f227-4f33-8034-2169cf2e8db3" name="Work Queues::Get Next Item" type="Action">
+    <narrative>This action gets the next item to be worked from the queue, returning its details and locking it so no other case can work it.
+
+Items with higher priorities (lower numerical value) are processed first. Where the priority is the same, the next item is the one that has been in the queue the longest,  is not already locked, and is not already completed.
+
+The Item ID returned is used to make further calls to update the work status for that item. It may be empty, in which case there are no items available. This can mean either a) the queue is empty, or b) the queue is not running. This mechanism can be used to cleanly stop all processes working a particular queue at the end of the next case. Items that have a 'deferred' time set will not be returned unless that time has been reached.</narrative>
+    <display x="15" y="255" />
+    <inputs>
+      <input type="text" name="Queue Name" friendlyname="Queue Name" narrative="The name of the queue" expr="&quot;Q.March2021&quot;" />
+      <input type="text" name="Key Filter" friendlyname="Key Filter" narrative="Optionally, a key value to filter by. Only items with this key value will be considered." expr="" />
+      <input type="text" name="Tag Filter" friendlyname="Tag Filter" narrative="Optionally, a tag mask to filter by. This can consist of any number of tag searches - each term can be separated by a semi-colon and they are all applied to the search (ie. they are AND'ed terms not OR'ed terms). For example, &quot;Account: Joint; -Balance: Overdrawn; Card: *Visa*&quot; will include any items which match all the terms, ie. every item must have an 'Account: Joint' tag applied, no item can have a 'Balance: Overdrawn' tag applied, every item must have a tag applied which starts with 'Card: ' and then contains the text 'Visa'." expr="" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Item ID" friendlyname="Item ID" narrative="The ID of the item retrieved - empty if there are none available." stage="Item ID" />
+      <output type="collection" name="Data" friendlyname="Data" narrative="The data associated with the item - a single collection row." stage="Data" />
+      <output type="text" name="Status" friendlyname="Status" narrative="The status of the item." stage="" />
+      <output type="number" name="Attempts" friendlyname="Attempts" narrative="The number of attempts already made to work this item." stage="" />
+    </outputs>
+    <onsuccess>7689b767-d7b7-4271-955b-f36505ffcf7f</onsuccess>
+    <resource object="Blueprism.Automate.clsWorkQueuesActions" action="Get Next Item" />
+  </stage>
+  <stage stageid="8d68f059-fc83-485e-922e-560585d24e4e" name="Item ID" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="330" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2650bf70-278a-4542-bfbd-7dd704a32229" name="Data" type="Collection">
+    <display x="-225" y="330" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="7689b767-d7b7-4271-955b-f36505ffcf7f" name="Get Attachment Name" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="315" />
+    <onsuccess>c6f19e12-933b-4f1c-9578-cd330413f793</onsuccess>
+    <calculation expression="[Data.Attachments]" stage="Attachment Name" />
+  </stage>
+  <stage stageid="6474ab0c-5ff3-4e5c-8772-2008aeecce65" name="If no attachment" type="Note">
+    <narrative>If email has no attachment, throw exception and skip it in the Queue. Also would need to Delete it from the Queue.</narrative>
+    <display x="420" y="270" w="180" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+  </stage>
+  <stage stageid="5dcc812f-14eb-4b22-b5e9-d2a4afbf2bdd" name="Attachment Location Path" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-150" y="270" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c6f19e12-933b-4f1c-9578-cd330413f793" name="Make Attachment Location Path" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="375" />
+    <onsuccess>c5f7d283-724b-4069-8325-3b4ead9afc0d</onsuccess>
+    <calculation expression="[PDF Location to the Main Page]&amp;&quot;\&quot;&amp;[Attachment Name]" stage="Attachment Location Path" />
+  </stage>
+  <stage stageid="50196aae-dc80-4a29-a0a9-3be4b3543544" name="OnePage" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-45" y="-75" w="300" h="225" />
+    <font family="Segoe UI" size="10" style="Regular" color="FFFF99" />
+  </stage>
+  <stage stageid="57e0ca89-a406-49d7-ba9b-b63027eabcd8" name="Note1" type="Note">
+    <narrative>This would be all one page.</narrative>
+    <display x="360" y="30" w="120" h="30" />
+    <font family="Segoe UI" size="10" style="Regular" color="FF0000" />
+  </stage>
+  <stage stageid="0986fdd9-feb1-4d19-9fd0-06b31cbf1197" name="Main Page" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-45" y="165" w="150" h="240" />
+    <font family="Segoe UI" size="10" style="Regular" color="FFFF99" />
+  </stage>
+  <stage stageid="176ce5fe-6aa3-47f4-afc4-d1af29e86e97" name="SendEmail" type="SubSheetInfo">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="1fc40fa9-0d0f-4cf9-acbe-3540615b3fe5" name="Start" type="Start">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <display x="15" y="-105" />
+    <onsuccess>dbaded4a-45f9-46c7-a96e-130e685e4018</onsuccess>
+  </stage>
+  <stage stageid="ed8bb181-2fc7-4ea5-a3fe-d0e23b48d043" name="End" type="End">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="e61fe6cf-348a-4c28-acb1-d3d6acb8cee3" name="SendEmail" type="Action">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="30" />
+    <inputs>
+      <input type="text" name="To" friendlyname="To" narrative="Mandatory. Any alphanumeric value allowed. Single Recipient = &quot;Name1@emaill.com&quot;; Multi Recipient = &quot;Name1@emaill.com; Name2@email.com&quot;" expr="[Billing Dept Email Address]" />
+      <input type="text" name="CC" friendlyname="CC" narrative="Optional. Any alphanumeric value allowed. Single Recipient = &quot;Name1@emaill.com&quot;; Multi Recipient = &quot;Name1@emaill.com; Name2@email.com&quot;. Default blank" expr="[Controller Email Address]" />
+      <input type="text" name="BCC" friendlyname="BCC" narrative="Optional. Any alphanumeric value allowed. Single Recipient = &quot;Name1@emaill.com&quot;; Multi Recipient = &quot;Name1@emaill.com; Name2@email.com&quot;. Default blank" expr="" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="Optional. Any alphanumeric value allowed." expr="&quot;Missing Documents&quot;" />
+      <input type="text" name="Message" friendlyname="Message" narrative="Optional, HTML or plain text" expr="" />
+      <input type="text" name="Attachments" friendlyname="Attachments" narrative="Optional, Semicolon--separated file paths. Default blank." expr="" />
+      <input type="flag" name="IsHTML" friendlyname="IsHTML" narrative="Optional. True or False, default to True" expr="" />
+      <input type="number" name="Sensitivity" friendlyname="Sensitivity" narrative="Optional. An integer between 0 and 3, default to 0." expr="" />
+      <input type="number" name="Importance" friendlyname="Importance" narrative="Optional. An integer between 0 and 2 default to 1." expr="" />
+      <input type="text" name="Account Display Name" friendlyname="Account Display Name" narrative="Optional. DisplayName of the email account. Default account is used if omitted." expr="" />
+    </inputs>
+    <onsuccess>ed8bb181-2fc7-4ea5-a3fe-d0e23b48d043</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Send Email" />
+  </stage>
+  <stage stageid="3b53955e-3e7f-4f0f-959a-c2c4430cfa53" name="Billing Dept Email Address" type="Data">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-240" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">vmclairecollins@gmail.com</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d4b307d7-5ade-4147-8673-63df6f642976" name="Controller Email Address" type="Data">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">rpagroupproject@outlook.com</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f3cad6cb-90ea-4523-8194-a36cc084ad6b" name="MISSING DOCUMENTS" type="Collection">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <display x="-240" y="45" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="dbaded4a-45f9-46c7-a96e-130e685e4018" name="Email - POP3/SMTP::Configure" type="Action">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+    <inputs>
+      <input type="text" name="Username" friendlyname="Username" narrative="The POP3 and SMTP Username" expr="[Username]" />
+      <input type="password" name="Password" friendlyname="Password" narrative="The POP3 and SMTP Password" expr="[PasswordDataItem]" />
+      <input type="text" name="POP3 Server" friendlyname="POP3 Server" narrative="The POP3 Server address e.g. pop.domain.com" expr="&quot;outlook.office365.com&quot;" />
+      <input type="text" name="SMTP Server" friendlyname="SMTP Server" narrative="The SMTP Server address e.g. smtp.domain.com" expr="&quot;outlook.office365.com&quot;" />
+      <input type="number" name="POP3 Port" friendlyname="POP3 Port" narrative="The POP3 Port, e.g. 110 or 995" expr="995" />
+      <input type="number" name="SMTP Port" friendlyname="SMTP Port" narrative="The SMTP Port, e.g 25 or 465" expr="587" />
+      <input type="flag" name="POP3 UseSSL" friendlyname="POP3 UseSSL" narrative="Whether to use SSL for POP3" expr="True" />
+      <input type="flag" name="SMTP UseSSL" friendlyname="SMTP UseSSL" narrative="Whether to use SSL for SMTP" expr="True" />
+    </inputs>
+    <onsuccess>e61fe6cf-348a-4c28-acb1-d3d6acb8cee3</onsuccess>
+    <resource object="Email - POP3/SMTP" action="Configure" />
+  </stage>
+  <stage stageid="5c08022e-6775-4d36-887d-6a2ab8ee2c10" name="Username" type="Data">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-240" y="105" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">rpagroupproject@outlook.com</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="42eedc01-f6f3-4619-b36e-a65972253d09" name="PasswordDataItem" type="Data">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-180" y="105" />
+    <datatype>password</datatype>
+    <initialvalueenc>17,7,27,83,8,71,7,36,52,1,68</initialvalueenc>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="099706f0-8a2a-435e-bc51-7d4e94737e18" name="Email Login Data Items" type="Block">
+    <subsheetid>6c9bc1d6-56d2-4289-bd37-3250940d0164</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-270" y="75" w="135" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="00FF00" />
+  </stage>
+  <stage stageid="cbfb616d-c3a4-4344-aa7c-493c15df954e" name="Q - Mark Completed" type="Action">
+    <loginhibit onsuccess="true" />
+    <narrative>Marks the item as completed, by updating the Completed timestamp and setting Locked to null. The item must be 'owned' by the calling process - i.e. it must have been retrieved using Get Next Item.</narrative>
+    <display x="165" y="450" />
+    <inputs>
+      <input type="text" name="Item ID" friendlyname="Item ID" narrative="The ID of the item to mark" expr="[Item ID]" />
+    </inputs>
+    <onsuccess>d81590f3-6040-4b20-bee5-d9c987d17b0c</onsuccess>
+    <resource object="Blueprism.Automate.clsWorkQueuesActions" action="Mark Completed" />
+  </stage>
+  <stage stageid="c5f7d283-724b-4069-8325-3b4ead9afc0d" name="Shipping Document Recognition" type="Process">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="450" />
+    <inputs>
+      <input type="text" name="Attachment Location Path" friendlyname="Attachment Location Path" narrative="Folder Path of Attachment" expr="[Attachment Location Path]" />
+    </inputs>
+    <onsuccess>cbfb616d-c3a4-4344-aa7c-493c15df954e</onsuccess>
+    <processid>898f3fee-1bf1-411b-a3a3-d2586174f70a</processid>
+  </stage>
+  <stage stageid="d81590f3-6040-4b20-bee5-d9c987d17b0c" name="Work Queues::Get Next Item" type="Action">
+    <narrative>This action gets the next item to be worked from the queue, returning its details and locking it so no other case can work it.
+
+Items with higher priorities (lower numerical value) are processed first. Where the priority is the same, the next item is the one that has been in the queue the longest,  is not already locked, and is not already completed.
+
+The Item ID returned is used to make further calls to update the work status for that item. It may be empty, in which case there are no items available. This can mean either a) the queue is empty, or b) the queue is not running. This mechanism can be used to cleanly stop all processes working a particular queue at the end of the next case. Items that have a 'deferred' time set will not be returned unless that time has been reached.</narrative>
+    <display x="165" y="330" />
+    <inputs>
+      <input type="text" name="Queue Name" friendlyname="Queue Name" narrative="The name of the queue" expr="&quot;Q.RPA.2021&quot;" />
+      <input type="text" name="Key Filter" friendlyname="Key Filter" narrative="Optionally, a key value to filter by. Only items with this key value will be considered." expr="" />
+      <input type="text" name="Tag Filter" friendlyname="Tag Filter" narrative="Optionally, a tag mask to filter by. This can consist of any number of tag searches - each term can be separated by a semi-colon and they are all applied to the search (ie. they are AND'ed terms not OR'ed terms). For example, &quot;Account: Joint; -Balance: Overdrawn; Card: *Visa*&quot; will include any items which match all the terms, ie. every item must have an 'Account: Joint' tag applied, no item can have a 'Balance: Overdrawn' tag applied, every item must have a tag applied which starts with 'Card: ' and then contains the text 'Visa'." expr="" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Item ID" friendlyname="Item ID" narrative="The ID of the item retrieved - empty if there are none available." stage="Item ID" />
+      <output type="collection" name="Data" friendlyname="Data" narrative="The data associated with the item - a single collection row." stage="Data" />
+      <output type="text" name="Status" friendlyname="Status" narrative="The status of the item." stage="" />
+      <output type="number" name="Attempts" friendlyname="Attempts" narrative="The number of attempts already made to work this item." stage="" />
+    </outputs>
+    <onsuccess>c615bd8e-8970-4fd9-8be2-6f3babe78143</onsuccess>
+    <resource object="Blueprism.Automate.clsWorkQueuesActions" action="Get Next Item" />
+  </stage>
+  <stage stageid="c615bd8e-8970-4fd9-8be2-6f3babe78143" name="Is Queue Empty?" type="Decision">
+    <display x="165" y="195" />
+    <decision expression="[Item ID]&lt;&gt;&quot; &quot;" />
+    <ontrue>fa3e3c4f-7ff0-430e-91fd-d39e374fc3a9</ontrue>
+    <onfalse>21de294b-811f-459d-9e71-abf23515b067</onfalse>
+  </stage>
+</process>
